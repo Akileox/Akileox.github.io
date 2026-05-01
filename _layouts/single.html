@@ -1,0 +1,69 @@
+---
+layout: default
+---
+
+{% assign cat = page.categories.first | downcase %}
+
+<article class="post-single">
+
+  <header class="post-single__header">
+    {% if page.categories.first %}
+    <a href="/blog/" class="post-single__cat cat-badge cat-badge--{{ cat }}">{{ page.categories.first }}</a>
+    {% endif %}
+
+    <h1 class="post-single__title">{{ page.title }}</h1>
+
+    <div class="post-single__meta">
+      <span class="post-single__author">SeungMin Lee</span>
+      <span class="post-single__sep">·</span>
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y. %m. %d" }}</time>
+    </div>
+
+    {% if page.tags.size > 0 %}
+    <div class="post-single__tags">
+      {% for tag in page.tags %}<a href="/tags/#{{ tag | slugify }}" class="post-single__tag">#{{ tag }}</a>{% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  {% if page.header.image or page.header.teaser %}
+  <div class="post-single__hero">
+    <img src="{{ page.header.image | default: page.header.teaser | relative_url }}" alt="{{ page.title }}">
+  </div>
+  {% endif %}
+
+  <div class="post-single__content">
+    {{ content }}
+  </div>
+
+  <footer class="post-single__footer">
+    {% if page.share %}{% include social-share.html %}{% endif %}
+
+    {% if page.related %}
+    {% assign related_posts = site.related_posts | limit: 3 %}
+    {% if related_posts.size > 0 %}
+    <div class="post-related">
+      <p class="section-label">You may also enjoy</p>
+      <div class="post-grid">
+        {% for p in related_posts %}
+        <article class="post-card">
+          <a href="{{ p.url | relative_url }}" class="post-card__link">
+            <div class="post-card__img">
+              {% if p.header.teaser %}<img src="{{ p.header.teaser | relative_url }}" alt="{{ p.title }}">{% endif %}
+            </div>
+            <div class="post-card__body">
+              {% assign pcat = p.categories.first | downcase %}
+              <span class="cat-badge cat-badge--{{ pcat }}">{{ p.categories.first }}</span>
+              <h3 class="post-card__title">{{ p.title }}</h3>
+              <p class="post-card__meta">{{ p.date | date: "%Y. %m. %d" }}</p>
+            </div>
+          </a>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endif %}
+  </footer>
+
+</article>
