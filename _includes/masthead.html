@@ -2,40 +2,38 @@
   <div class="site-header__inner">
 
     <a class="site-logo" href="{{ '/' | relative_url }}">
-      <!-- 로고 이미지: assets/images/logo.png (또는 svg)를 준비한 뒤 아래 주석을 해제하세요 -->
-      <!-- <img class="site-logo__img" src="{{ '/assets/images/logo.png' | relative_url }}" alt="Akileo" height="28"> -->
-      <span class="site-logo__mark"></span>
+      <svg class="site-logo__mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" aria-hidden="true">
+        <circle cx="44" cy="44" r="44" fill="#111111"/>
+        <path d="M44,22 Q38,34 29,68 M44,22 Q50,34 59,68"
+              fill="none" stroke="white" stroke-width="5.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="34" y1="47" x2="54" y2="47"
+              stroke="white" stroke-width="5" stroke-linecap="round"/>
+        <path d="M34,47 C17,44 13,22 40,20"
+              fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M54,47 C71,44 75,22 48,20"
+              fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
       Akileo
     </a>
 
     <nav class="site-nav" id="site-nav">
       {%- for link in site.data.navigation.main -%}
-        {%- unless link.title == "Contact" -%}
         <a class="site-nav__link" href="{{ link.url | relative_url }}">{{ link.title }}</a>
-        {%- endunless -%}
       {%- endfor -%}
     </nav>
 
-    <div class="site-header__right">
-      <a class="site-header__contact" href="mailto:akileo@korea.ac.kr">
-        Contact
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <button class="site-header__hamburger" id="nav-toggle" aria-label="메뉴 열기">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+    <button class="site-header__hamburger" id="nav-toggle" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
 
   </div>
 
   <!-- Mobile drawer -->
   <div class="site-nav-drawer" id="nav-drawer">
     {%- for link in site.data.navigation.main -%}
-      {%- unless link.title == "Contact" -%}
       <a href="{{ link.url | relative_url }}">{{ link.title }}</a>
-      {%- endunless -%}
     {%- endfor -%}
-    <a href="mailto:akileo@korea.ac.kr">Contact</a>
   </div>
 </header>
 
