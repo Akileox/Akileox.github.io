@@ -274,12 +274,9 @@ classes: wide
       <p style="margin:0;font-size:0.9rem;color:var(--text-muted);">
         이 아이디어에서 놓친 선행연구, 반박, 질문 — 뭐든 좋다.
       </p>
-      <form class="tc-feedback__form" id="tc-feedback-form">
-        <textarea name="message" placeholder="의견을 남겨주세요" required></textarea>
-        <input type="text" name="contact" placeholder="이메일/연락처 (선택)">
-        <button type="submit" class="tc-feedback__submit">보내기</button>
-        <p class="tc-feedback__status" id="tc-feedback-status"></p>
-      </form>
+      <a href="mailto:akileo@korea.ac.kr?subject=taskcraft%20feedback" class="tc-feedback__submit" style="display:inline-block;margin-top:1rem;text-decoration:none;">
+        이메일로 의견 보내기 →
+      </a>
     </div>
   </div>
 
@@ -289,52 +286,3 @@ classes: wide
   </p>
 
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script>
-  (function () {
-    var SUPABASE_URL = "__SUPABASE_URL__";
-    var SUPABASE_ANON_KEY = "__SUPABASE_ANON_KEY__";
-    var form = document.getElementById("tc-feedback-form");
-    var status = document.getElementById("tc-feedback-status");
-    if (!form) return;
-
-    var client = null;
-    if (window.supabase && SUPABASE_URL.indexOf("__") !== 0) {
-      client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!client) {
-        status.textContent = "피드백 폼이 아직 연결되지 않았습니다.";
-        status.className = "tc-feedback__status tc-feedback__status--err";
-        return;
-      }
-      var message = form.message.value.trim();
-      var contact = form.contact.value.trim();
-      if (!message) return;
-
-      var submitBtn = form.querySelector("button");
-      submitBtn.disabled = true;
-      status.textContent = "보내는 중...";
-      status.className = "tc-feedback__status";
-
-      client.from("feedback").insert({
-        message: message,
-        contact: contact || null,
-        page: "/taskcraft/"
-      }).then(function (res) {
-        submitBtn.disabled = false;
-        if (res.error) {
-          status.textContent = "전송 실패: " + res.error.message;
-          status.className = "tc-feedback__status tc-feedback__status--err";
-        } else {
-          status.textContent = "고마워요, 잘 받았습니다.";
-          status.className = "tc-feedback__status tc-feedback__status--ok";
-          form.reset();
-        }
-      });
-    });
-  })();
-</script>
