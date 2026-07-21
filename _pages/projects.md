@@ -12,6 +12,27 @@ classes: wide
 
   <div class="projects-grid">
 
+    <!-- taskcraft (current) -->
+    <div class="project-card">
+      <div class="project-card__header">
+        <h3 class="project-card__title">taskcraft — Embodiment-Agnostic Task Representation</h3>
+        <span class="status-badge status-badge--progress">In Progress</span>
+      </div>
+      <p class="project-card__desc">
+        사람 시연 영상에서 신체 구조에 종속되지 않는 task representation을 latent world model로 추출해, 형태가 다른 에이전트에 이식할 수 있는가에 대한 연구. Minecraft(MineRL)를 첫 파일럿으로 BC/DAgger/PPO를 비교하며 검증한다.
+      </p>
+      <div class="project-card__tags">
+        <span class="project-card__tag">World Model</span>
+        <span class="project-card__tag">Imitation Learning</span>
+        <span class="project-card__tag">MineRL</span>
+        <span class="project-card__tag">Cross-Embodiment</span>
+      </div>
+      <div class="project-card__links">
+        <a href="/taskcraft/">연구 노트 →</a>
+        <a href="https://github.com/Akileox/taskcraft" target="_blank">GitHub</a>
+      </div>
+    </div>
+
     <!-- Isaac Sim (crown jewel) -->
     <div class="project-card">
       <div class="project-card__header">
