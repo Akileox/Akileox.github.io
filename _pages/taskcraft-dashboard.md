@@ -1,7 +1,7 @@
 ---
 layout: default
 permalink: /taskcraft/dashboard/
-title: "taskcraft — Dashboard"
+title: "taskcraft: Dashboard"
 author_profile: false
 classes: wide
 ---

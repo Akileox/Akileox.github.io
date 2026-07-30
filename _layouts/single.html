@@ -44,21 +44,21 @@ layout: default
     {% if related_posts.size > 0 %}
     <div class="post-related">
       <p class="section-label">You may also enjoy</p>
-      <div class="post-grid">
+      <div class="blog-list">
         {% for p in related_posts %}
-        <article class="post-card">
-          <a href="{{ p.url | relative_url }}" class="post-card__link">
-            <div class="post-card__img">
-              {% if p.header.teaser %}<img src="{{ p.header.teaser | relative_url }}" alt="{{ p.title }}">{% endif %}
-            </div>
-            <div class="post-card__body">
-              {% assign pcat = p.categories.first | downcase %}
-              <span class="cat-badge cat-badge--{{ pcat }}">{{ p.categories.first }}</span>
-              <h3 class="post-card__title">{{ p.title }}</h3>
-              <p class="post-card__meta">{{ p.date | date: "%Y. %m. %d" }}</p>
-            </div>
-          </a>
-        </article>
+        <a href="{{ p.url | relative_url }}" class="blog-list-item">
+          {% if p.header.teaser %}
+          <div class="blog-list-item__img">
+            <img src="{{ p.header.teaser | relative_url }}" alt="{{ p.title }}">
+          </div>
+          {% endif %}
+          <div class="blog-list-item__content">
+            {% assign pcat = p.categories.first | downcase %}
+            <span class="cat-badge cat-badge--{{ pcat }}">{{ p.categories.first }}</span>
+            <h3 class="blog-list-item__title">{{ p.title }}</h3>
+            <p class="blog-list-item__meta">{{ p.date | date: "%Y. %m. %d" }}</p>
+          </div>
+        </a>
         {% endfor %}
       </div>
     </div>

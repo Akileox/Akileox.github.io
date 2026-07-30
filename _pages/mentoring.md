@@ -69,7 +69,7 @@ classes: wide
   <div class="session-list">
 
     <a href="/mentoring/gshs-tr-2026/" class="session-row">
-      <span class="session-row__period">2026.07 — present</span>
+      <span class="session-row__period">2026.07 ~ present</span>
       <div class="session-row__info">
         <p class="session-row__title">Team Research</p>
         <p class="session-row__desc">GSHS</p>
@@ -79,7 +79,7 @@ classes: wide
     </a>
 
     <a href="/mentoring/team-dj-2025w/" class="session-row">
-      <span class="session-row__period">2024.12 — 2025.02<br>2025.12 — 2026.02</span>
+      <span class="session-row__period">2024.12 ~ 2025.02<br>2025.12 ~ 2026.02</span>
       <div class="session-row__info">
         <p class="session-row__title">Team DJ</p>
         <p class="session-row__desc">고등학교 수학 첨삭 조교</p>

@@ -103,7 +103,7 @@ classes: wide
 <a href="/mentoring/" class="msession-back">← Mentoring</a>
 
   <div class="msession-header">
-    <p class="msession-period">2024.12 — 2025.02<br>2025.12 — 2026.02</p>
+    <p class="msession-period">2024.12 ~ 2025.02<br>2025.12 ~ 2026.02</p>
     <h1 class="msession-title">Team DJ</h1>
     <p class="msession-sub">고등학교 수학 수학 첨삭 조교</p>
     <span class="msession-badge">Completed</span>
@@ -115,7 +115,7 @@ classes: wide
       <p class="msection-label">Info</p>
       <dl class="info-list">
         <li><dt>Role</dt><dd>Teaching Assistant</dd></li>
-        <li><dt>Period</dt><dd>2024.12 — 2025.02<br>2025.12 — 2026.02</dd></li>
+        <li><dt>Period</dt><dd>2024.12 ~ 2025.02<br>2025.12 ~ 2026.02</dd></li>
         <li>
           <dt>Format</dt>
           <!-- 수업 방식 채워주세요 -->

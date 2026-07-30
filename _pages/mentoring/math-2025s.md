@@ -83,7 +83,7 @@ classes: wide
   <a href="/mentoring/" class="msession-back">← Mentoring</a>
 
   <div class="msession-header">
-    <p class="msession-period">2025.07 — 2025.08</p>
+    <p class="msession-period">2025.07 ~ 2025.08</p>
     <h1 class="msession-title">수학 개인 과외</h1>
     <p class="msession-sub">여름방학 수학 개인 지도</p>
     <span class="msession-badge">Completed</span>
@@ -95,11 +95,11 @@ classes: wide
       <p class="msection-label">Info</p>
       <dl class="info-list">
         <li><dt>Role</dt><dd>Tutor</dd></li>
-        <li><dt>Period</dt><dd>2025.07 — 2025.08</dd></li>
+        <li><dt>Period</dt><dd>2025.07 ~ 2025.08</dd></li>
         <li>
           <dt>Format</dt>
           <!-- 수업 방식 채워주세요 -->
-          <dd>[내용 입력] — 1:1 / 소그룹 등</dd>
+          <dd>[내용 입력]: 1:1 / 소그룹 등</dd>
         </li>
         <li>
           <dt>Students</dt>
@@ -136,7 +136,7 @@ classes: wide
     </thead>
     <tbody>
       <!-- 일정을 직접 채워주세요 -->
-      <tr class="group-row"><td colspan="5">Part 1 — [내용 입력]</td></tr>
+      <tr class="group-row"><td colspan="5">Part 1: [내용 입력]</td></tr>
       <tr>
         <td>1</td>
         <td>[date]</td>
@@ -149,6 +149,6 @@ classes: wide
 
   <!-- Materials -->
   <p class="msection-label">Materials</p>
-  <div class="placeholder-block">[내용 입력] — 교재, 참고자료 등</div>
+  <div class="placeholder-block">[내용 입력]: 교재, 참고자료 등</div>
 
 </div>

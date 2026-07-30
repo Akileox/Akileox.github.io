@@ -1,5 +1,5 @@
 ---
-title: "Solving CartPole with Deep Q-Learning — Implementation Notes"
+title: "Solving CartPole with Deep Q-Learning: Implementation Notes"
 date: 2026-05-01
 categories: [Project]
 tags: [reinforcement-learning, dqn, pytorch, gymnasium, python]
@@ -12,7 +12,7 @@ As part of my Reinforcement Learning course, I implemented Deep Q-Network (DQN) 
 
 ## Problem Setup
 
-CartPole is deceptively simple: apply left or right force to a cart to keep a pole balanced. The state vector has 4 dimensions — cart position, cart velocity, pole angle, and pole angular velocity. Including velocity terms is not optional; without them, the state fails the Markov property because the next state becomes unpredictable from position alone.
+CartPole is deceptively simple: apply left or right force to a cart to keep a pole balanced. The state vector has 4 dimensions: cart position, cart velocity, pole angle, and pole angular velocity. Including velocity terms is not optional; without them, the state fails the Markov property because the next state becomes unpredictable from position alone.
 
 <!-- ![CartPole environment diagram](/assets/images/projects/dqn-cartpole/cartpole-diagram.png) -->
 
@@ -20,7 +20,7 @@ The task is solved when the agent survives 400+ steps per episode.
 
 ## Why a Neural Network?
 
-Even though the state and action spaces are finite, building a Q-table is impractical — the continuous-valued state space would require discretization, which introduces approximation error and explodes memory usage. Instead, I used a neural network to approximate the Q-function directly.
+Even though the state and action spaces are finite, building a Q-table is impractical. The continuous-valued state space would require discretization, which introduces approximation error and explodes memory usage. Instead, I used a neural network to approximate the Q-function directly.
 
 I chose an architecture that takes only the state as input and outputs Q-values for all actions simultaneously. For CartPole's small discrete action space, this is more efficient than evaluating each (state, action) pair separately.
 
@@ -38,13 +38,13 @@ class DQN(nn.Module):
         return self.fc3(x)
 ```
 
-Two hidden layers of width 128 with ReLU activations. For a problem this simple, going deeper tends to hurt stability rather than help. I also kept `state_dim` and `action_dim` as parameters rather than hardcoding 4 and 2 — a small habit that makes the code reusable across environments.
+Two hidden layers of width 128 with ReLU activations. For a problem this simple, going deeper tends to hurt stability rather than help. I also kept `state_dim` and `action_dim` as parameters rather than hardcoding 4 and 2, a small habit that makes the code reusable across environments.
 
 ## The Three Components That Actually Matter
 
 ### 1. Experience Replay
 
-Naive online training fails because consecutive transitions are highly correlated — the current state largely determines the next one. Training directly on this stream causes the network to overfit to recent experience and forget earlier patterns.
+Naive online training fails because consecutive transitions are highly correlated: the current state largely determines the next one. Training directly on this stream causes the network to overfit to recent experience and forget earlier patterns.
 
 The fix: store every `(state, action, reward, next_state, done)` transition in a replay buffer (implemented as a `deque` with `maxlen=10000`), then sample random mini-batches during training. This breaks the temporal correlation and lets single transitions contribute to multiple gradient updates.
 
@@ -64,7 +64,7 @@ One detail worth noting: `actions` must be cast to `torch.long` (used as indices
 
 ### 2. Target Network
 
-Standard Q-learning has a feedback loop problem: the target values you're training toward are computed by the same network you're updating. Every gradient step shifts both the prediction _and_ the target — you're chasing a moving goalpost.
+Standard Q-learning has a feedback loop problem: the target values you're training toward are computed by the same network you're updating. Every gradient step shifts both the prediction _and_ the target, so you're chasing a moving goalpost.
 
 The solution is a separate target network with frozen parameters, updated by hard-copying the online network every `update_frequency` steps:
 
@@ -79,7 +79,7 @@ This gives the training signal a stable reference for `update_frequency` steps a
 target_q = reward + γ · max_a Q_target(next_state, a) · (1 - done)
 ```
 
-The `(1 - done)` term zeros out the future reward when the episode ends — easy to forget, and silently wrong if you do.
+The `(1 - done)` term zeros out the future reward when the episode ends. It's easy to forget, and silently wrong if you do.
 
 ### 3. Epsilon-Greedy Exploration
 
@@ -103,7 +103,7 @@ The full loop in one pass:
 5. Minimize MSE loss with Adam (`lr=5e-4`), update only `q_net`
 6. Every 100 steps, sync `target_net ← q_net`
 
-Adam was chosen over SGD for its adaptive learning rate — it handles the non-stationary target distribution better in practice.
+Adam was chosen over SGD for its adaptive learning rate, which handles the non-stationary target distribution better in practice.
 
 ## Results
 
@@ -119,11 +119,11 @@ Adam was chosen over SGD for its adaptive learning rate — it handles the non-s
 | Target update frequency         | 100 steps         |
 | Epsilon (initial / min / decay) | 1.0 / 0.02 / 0.98 |
 
-<!-- ![Baseline training curve — raw per-episode duration](/assets/images/projects/dqn-cartpole/training-curve.png) -->
+<!-- ![Baseline training curve: raw per-episode duration](/assets/images/projects/dqn-cartpole/training-curve.png) -->
 
-_Figure 1. Raw training performance. High variance throughout is expected — see Instability section._
+_Figure 1. Raw training performance. High variance throughout is expected; see the Instability section._
 
-<!-- ![Baseline training curve — moving average (window=10)](/assets/images/projects/dqn-cartpole/training-curve-avg.png) -->
+<!-- ![Baseline training curve: moving average (window=10)](/assets/images/projects/dqn-cartpole/training-curve-avg.png) -->
 
 _Figure 2. Moving average smooths the trend: steady improvement from ~episode 50, converging near 500 steps by episode 200._
 
@@ -138,21 +138,21 @@ Even late in training, the agent occasionally collapses to near-zero durations. 
 
 ### Hyperparameter Experiments
 
-<!-- ![Case 1 — Aggressive Learning: warmup=200, update_freq=50](/assets/images/projects/dqn-cartpole/case1-collapse.png) -->
+<!-- ![Case 1: Aggressive Learning, warmup=200, update_freq=50](/assets/images/projects/dqn-cartpole/case1-collapse.png) -->
 
 _Figure 3. Aggressive settings: fast early gains, catastrophic late collapse._
 
-<!-- ![Case 2 — More Exploration: epsilon_min=0.05](/assets/images/projects/dqn-cartpole/case2-volatility.png) -->
+<!-- ![Case 2: More Exploration, epsilon_min=0.05](/assets/images/projects/dqn-cartpole/case2-volatility.png) -->
 
 _Figure 4. Higher epsilon floor: upward trend maintained, but sharper episode-to-episode swings._
 
-**Case 1 — Aggressive Learning** (warmup=200, update_freq=50):
+**Case 1: Aggressive Learning** (warmup=200, update_freq=50):
 
-Faster warmup and more frequent target updates sometimes produced faster initial convergence. But it also introduced catastrophic collapse in the later stages — policies that had reached 500 steps fell back to near-zero and failed to recover. High run-to-run variance confirmed this setting trades stability for speed in a bad way.
+Faster warmup and more frequent target updates sometimes produced faster initial convergence. But it also introduced catastrophic collapse in the later stages: policies that had reached 500 steps fell back to near-zero and failed to recover. High run-to-run variance confirmed this setting trades stability for speed in a bad way.
 
-**Case 2 — More Exploration** (ε_min=0.05):
+**Case 2: More Exploration** (ε_min=0.05):
 
-Raising the exploration floor maintained the upward trend but increased episode-to-episode volatility. Performance would drop sharply, recover, drop again — a pattern consistent with random actions disrupting an otherwise stable learned policy. Once a good policy is found, sustained high exploration actively hurts it.
+Raising the exploration floor maintained the upward trend but increased episode-to-episode volatility. Performance would drop sharply, recover, then drop again, a pattern consistent with random actions disrupting an otherwise stable learned policy. Once a good policy is found, sustained high exploration actively hurts it.
 
 **Summary**: `warmup` and `update_frequency` are the primary knobs for stability. `epsilon_min` controls late-stage variance. Neither is a free lunch.
 
@@ -160,7 +160,7 @@ Raising the exploration floor maintained the upward trend but increased episode-
 
 DQN handles discrete action spaces cleanly, but two structural issues remain:
 
-- **Discrete-only**: CartPole's binary action space is ideal for DQN. Most real control problems — robotics in particular — require continuous actions, where DQN can't be applied directly.
+- **Discrete-only**: CartPole's binary action space is ideal for DQN. Most real control problems, robotics in particular, require continuous actions, where DQN can't be applied directly.
 - **Bootstrap instability**: Even with a target network, Q-values are estimated from Q-values. Small errors compound, and in safety-critical systems (real robots), even occasional policy collapse is unacceptable.
 
 Algorithms like Double DQN address the overestimation bias, while DDPG and SAC extend deep RL to continuous control. Those are the natural next steps.
@@ -168,4 +168,4 @@ Algorithms like Double DQN address the overestimation bias, while DDPG and SAC e
 ---
 
 Code on [GitHub](#).  
-Next: Policy Gradient on LunarLander — a fundamentally different learning signal with no replay buffer.
+Next: Policy Gradient on LunarLander, a fundamentally different learning signal with no replay buffer.

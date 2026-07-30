@@ -13,14 +13,9 @@ classes: wide
       <h1 class="home-hero__name">SeungMin Lee</h1>
       <p class="home-hero__role">AI · Computer Vision · Robotics</p>
       <p class="home-hero__desc">
-        소개 글 작성 중..<br>
-        내용 입력
+        A long-term question: can a task representation learned from human demonstration transfer to agents with entirely different bodies?
       </p>
-      <div class="home-hero__tags">
-        <span>Robotics</span>
-        <span>Computer Vision</span>
-        <span>Reinforcement Learning</span>
-      </div>
+      <p class="home-hero__tags">Robotics <span class="sep">·</span> Computer Vision <span class="sep">·</span> Reinforcement Learning</p>
       <div class="home-hero__actions">
         <a href="/about/" class="hhero-btn hhero-btn--solid">About me →</a>
         <a href="/projects/" class="hhero-btn hhero-btn--ghost">Projects</a>
@@ -38,37 +33,30 @@ classes: wide
     <p class="section-label">Now</p>
     <ul class="home-now__list">
       <li class="home-now__item">
-        <span class="home-now__dot"></span>
+        <span class="home-now__index">01</span>
         <div>
           <p class="home-now__title"><a href="/taskcraft/">taskcraft</a></p>
-          <p class="home-now__sub">사람 시연 영상의 embodiment 무관 task representation, Minecraft로 파일럿 검증 중</p>
+          <p class="home-now__sub">Extracting an embodiment-agnostic task representation from human demonstrations, validating the pilot in Minecraft.</p>
         </div>
       </li>
       <li class="home-now__item">
-        <span class="home-now__dot"></span>
-        <div>
-          <p class="home-now__title">Robot Arm Manipulation</p>
-          <p class="home-now__sub">Nvidia Isaac Sim으로 단안 카메라 기반 매니퓰레이션 탐구 중</p>
-        </div>
-      </li>
-      <li class="home-now__item">
-        <span class="home-now__dot"></span>
-        <div>
-          <p class="home-now__title">Google Gemini Ambassador</p>
-          <p class="home-now__sub">2025-1st Activity Team</p>
-        </div>
-      </li>
-      <li class="home-now__item">
-        <span class="home-now__dot"></span>
+        <span class="home-now__index">02</span>
         <div>
           <p class="home-now__title">Mentoring 2026</p>
-          <p class="home-now__sub">2026-07 예정</p>
+          <p class="home-now__sub">Scheduled for July 2026.</p>
+        </div>
+      </li>
+      <li class="home-now__item">
+        <span class="home-now__index">03</span>
+        <div>
+          <p class="home-now__title">Military Service (Air Force)</p>
+          <p class="home-now__sub">Mandatory service in the Republic of Korea Air Force, 2026.09.28 – 2028.06.27.</p>
         </div>
       </li>
     </ul>
   </section>
 
-  <!-- ③ Recent Posts -->
+  <!-- ④ Recent Posts -->
   {% if site.posts.size > 0 %}
   <section class="home-section">
     <div class="home-section__head">
@@ -76,104 +64,85 @@ classes: wide
       <a href="/blog/" class="home-section__more">All posts →</a>
     </div>
 
-    {% assign featured = site.posts.first %}
-    <a href="{{ featured.url | relative_url }}" class="featured-card">
-      <div class="featured-card__img">
-        {% if featured.header.teaser %}<img src="{{ featured.header.teaser | relative_url }}" alt="{{ featured.title }}">{% endif %}
-      </div>
-      <div class="featured-card__body">
-        {% assign cat = featured.categories.first | downcase %}
-        <span class="cat-badge cat-badge--{{ cat }}">{{ featured.categories.first | default: "Post" }}</span>
-        <h2 class="featured-card__title">{{ featured.title }}</h2>
-        <p class="featured-card__excerpt">{{ featured.excerpt | strip_html | truncatewords: 40 }}</p>
-        <div class="featured-card__meta">
-          <span>{{ featured.date | date: "%Y. %m. %d" }}</span>
+    <div class="blog-list">
+      {% for post in site.posts limit:6 %}
+      <a href="{{ post.url | relative_url }}" class="blog-list-item{% if forloop.first %} blog-list-item--lead{% endif %}">
+        {% if post.header.teaser %}
+        <div class="blog-list-item__img">
+          <img src="{{ post.header.teaser | relative_url }}" alt="{{ post.title }}">
         </div>
-      </div>
-    </a>
-
-    {% if site.posts.size > 1 %}
-    <div class="post-grid" style="margin-top:1.25rem;">
-      {% for post in site.posts offset:1 limit:6 %}
-      <article class="post-card">
-        <a href="{{ post.url | relative_url }}" class="post-card__link">
-          <div class="post-card__img">
-            {% if post.header.teaser %}<img src="{{ post.header.teaser | relative_url }}" alt="{{ post.title }}">{% endif %}
-          </div>
-          <div class="post-card__body">
-            {% assign pcat = post.categories.first | downcase %}
-            <span class="cat-badge cat-badge--{{ pcat }}">{{ post.categories.first | default: "Post" }}</span>
-            <h3 class="post-card__title">{{ post.title }}</h3>
-            <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncatewords: 18 }}</p>
-            <p class="post-card__meta">{{ post.date | date: "%Y. %m. %d" }}</p>
-          </div>
-        </a>
-      </article>
+        {% endif %}
+        <div class="blog-list-item__content">
+          {% assign pcat = post.categories.first | downcase %}
+          <span class="cat-badge cat-badge--{{ pcat }}">{{ post.categories.first | default: "Post" }}</span>
+          <h3 class="blog-list-item__title">{{ post.title }}</h3>
+          <p class="blog-list-item__excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+          <p class="blog-list-item__meta">{{ post.date | date: "%Y. %m. %d" }}</p>
+        </div>
+      </a>
       {% endfor %}
     </div>
-    {% endif %}
   </section>
   {% endif %}
 
-  <!-- ④ Projects teaser -->
+  <!-- ⑤ Projects teaser -->
   <section class="home-section">
     <div class="home-section__head">
       <p class="section-label">Projects</p>
       <a href="/projects/" class="home-section__more">All projects →</a>
     </div>
-    <div class="home-proj-grid">
+    <div>
 
-      <div class="home-proj-card">
-        <div class="home-proj-card__head">
-          <h3 class="home-proj-card__title"><a href="/taskcraft/" style="color:inherit;text-decoration:none;">taskcraft</a></h3>
-          <span class="status-badge status-badge--progress">In Progress</span>
-        </div>
-        <p class="home-proj-card__desc">사람 시연 영상에서 embodiment 무관 task representation을 뽑아 다른 형태 에이전트에 이식하는 연구. Minecraft(MineRL)로 BC·DAgger·PPO 비교 검증 중.</p>
-        <div class="home-proj-card__tags">
-          <span>World Model</span>
-          <span>Imitation Learning</span>
-          <span>MineRL</span>
+      <div class="project-row">
+        <div class="project-row__status"><span class="status-badge status-badge--progress">In Progress</span></div>
+        <div>
+          <h3 class="project-row__title"><a href="/taskcraft/" style="color:inherit;text-decoration:none;">taskcraft</a></h3>
+          <p class="project-row__desc">사람 시연 영상에서 embodiment 무관 task representation을 뽑아 다른 형태 에이전트에 이식하는 연구. Minecraft(MineRL)로 BC·DAgger·PPO 비교 검증 중.</p>
+          <div class="project-row__tags">
+            <span class="project-row__tag">World Model</span>
+            <span class="project-row__tag">Imitation Learning</span>
+            <span class="project-row__tag">MineRL</span>
+          </div>
         </div>
       </div>
 
-      <div class="home-proj-card">
-        <div class="home-proj-card__head">
-          <h3 class="home-proj-card__title">Robot Arm Manipulation with Monocular Vision</h3>
-          <span class="status-badge status-badge--upcoming">Upcoming</span>
-        </div>
-        <p class="home-proj-card__desc">Nvidia Isaac Sim으로 단안 카메라에서 로봇 팔과 물체를 인식하고 실시간 매니퓰레이션 구현. PPO·SAC로 정책 학습.</p>
-        <div class="home-proj-card__tags">
-          <span>Isaac Sim</span>
-          <span>PPO</span>
-          <span>SAC</span>
-          <span>Computer Vision</span>
+      <div class="project-row">
+        <div class="project-row__status"><span class="status-badge status-badge--done">Completed</span></div>
+        <div>
+          <h3 class="project-row__title"><a href="/project/ppo-dexterous-manipulation/" style="color:inherit;text-decoration:none;">Dexterous Object Manipulation with PPO</a></h3>
+          <p class="project-row__desc">Isaac Lab에서 로봇 손(Shadow Hand)이 사람 손 동작과 물체 궤적을 모방해 조작하도록 PPO 정책을 학습. Contact·finger-group reward와 reset curriculum 설계로 안정적인 grasp를 형성.</p>
+          <div class="project-row__tags">
+            <span class="project-row__tag">Isaac Lab</span>
+            <span class="project-row__tag">PPO</span>
+            <span class="project-row__tag">Dexterous Manipulation</span>
+            <span class="project-row__tag">Reward Shaping</span>
+          </div>
         </div>
       </div>
 
-      <div class="home-proj-card">
-        <div class="home-proj-card__head">
-          <h3 class="home-proj-card__title">CartPole — DQN Implementation</h3>
-          <span class="status-badge status-badge--done">Completed</span>
-        </div>
-        <p class="home-proj-card__desc">Deep Q-Network을 Python으로 처음부터 구현. Experience replay, target network, ε-greedy 탐색 적용하여 CartPole-v1 해결.</p>
-        <div class="home-proj-card__tags">
-          <span>Python</span>
-          <span>DQN</span>
-          <span>OpenAI Gym</span>
-          <span>RL</span>
+      <div class="project-row">
+        <div class="project-row__status"><span class="status-badge status-badge--done">Completed</span></div>
+        <div>
+          <h3 class="project-row__title">CartPole: DQN Implementation</h3>
+          <p class="project-row__desc">Deep Q-Network을 Python으로 처음부터 구현. Experience replay, target network, ε-greedy 탐색 적용하여 CartPole-v1 해결.</p>
+          <div class="project-row__tags">
+            <span class="project-row__tag">Python</span>
+            <span class="project-row__tag">DQN</span>
+            <span class="project-row__tag">OpenAI Gym</span>
+            <span class="project-row__tag">RL</span>
+          </div>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ⑤ About + Contact -->
+  <!-- ⑥ About + Contact -->
   <div class="home-bottom">
 
     <section>
       <p class="section-label">About</p>
-      <!-- 홈페이지 자기소개 줄글. 직접 채워주세요. -->
-      <div class="home-about__placeholder">[내용 입력] — 나의 목표, 흥미</div>
+      <p>CS student at Korea University, interested in AI · Computer Vision · Robotics. Working toward task representations that transfer across differently-shaped agents.</p>
       <a href="/about/" class="home-about__more">자세히 →</a>
     </section>
 

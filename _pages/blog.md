@@ -7,7 +7,7 @@ classes: wide
 
 <div class="blog-wrap">
 
-  <h1 style="font-size:2rem;font-weight:800;color:var(--text);margin:0 0 0.5rem;letter-spacing:-0.02em;">Blog</h1>
+  <h1 style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--text);margin:0 0 0.5rem;letter-spacing:-0.01em;">Blog</h1>
   <p style="color:var(--text-muted);font-size:0.95rem;margin:0 0 2rem;">To share my ideas and experiences, and what I'm working on.</p>
 
   <!-- Category Filter -->
@@ -25,11 +25,11 @@ classes: wide
     <a href="{{ post.url | relative_url }}"
        class="blog-list-item"
        data-category="{{ post.categories.first }}">
+      {% if post.header.teaser %}
       <div class="blog-list-item__img">
-        {% if post.header.teaser %}
-          <img src="{{ post.header.teaser | relative_url }}" alt="{{ post.title }}">
-        {% endif %}
+        <img src="{{ post.header.teaser | relative_url }}" alt="{{ post.title }}">
       </div>
+      {% endif %}
       <div class="blog-list-item__content">
         {% assign pcat = post.categories.first | downcase %}
         <span class="cat-badge cat-badge--{{ pcat }}">{{ post.categories.first | default: "Post" }}</span>

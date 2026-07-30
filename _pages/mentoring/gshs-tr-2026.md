@@ -103,7 +103,7 @@ classes: wide
 <a href="/mentoring/" class="msession-back">← Mentoring</a>
 
   <div class="msession-header">
-    <p class="msession-period">2026.05 — present</p>
+    <p class="msession-period">2026.05 ~ present</p>
     <h1 class="msession-title">Team Research 2026 Summer</h1>
     <p class="msession-sub">GSHS Computer Science Research assistant</p>
     <span class="msession-badge">● Active</span>
@@ -115,7 +115,7 @@ classes: wide
       <p class="msection-label">Info</p>
       <dl class="info-list">
         <li><dt>Role</dt><dd>Assistant</dd></li>
-        <li><dt>Period</dt><dd>2026.05 — present</dd></li>
+        <li><dt>Period</dt><dd>2026.05 ~ present</dd></li>
         <li>
           <dt>Format</dt>
           <!-- 수업 방식 채워주세요 -->
@@ -158,7 +158,7 @@ classes: wide
     </thead>
     <tbody>
       <!-- 일정을 직접 채워주세요 -->
-      <tr class="group-row"><td colspan="5">Part 1 — TBA</td></tr>
+      <tr class="group-row"><td colspan="5">Part 1: TBA</td></tr>
       <tr>
         <td>1</td>
         <td>TBA</td>
