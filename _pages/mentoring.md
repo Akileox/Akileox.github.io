@@ -68,13 +68,13 @@ classes: wide
 
   <div class="session-list">
 
-    <a href="/mentoring/gshs-tr-2026/" class="session-row">
-      <span class="session-row__period">2026.07 ~ present</span>
+    <a href="/mentoring/gshs-2026/" class="session-row">
+      <span class="session-row__period">2026.07 ~ 2026.08</span>
       <div class="session-row__info">
-        <p class="session-row__title">Team Research</p>
+        <p class="session-row__title">선후배 멘토링</p>
         <p class="session-row__desc">GSHS</p>
       </div>
-      <span class="session-row__badge badge--active">● Upcoming</span>
+      <span class="session-row__badge badge--past">Completed</span>
       <span class="session-row__arrow">→</span>
     </a>
 
