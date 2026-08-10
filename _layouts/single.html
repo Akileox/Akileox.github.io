@@ -32,6 +32,20 @@ layout: default
   </div>
   {% endif %}
 
+  {% if page.ai_generated %}
+  <div class="ai-badge">
+    <span class="ai-badge__tag">🤖 AI 작성</span>
+    <p>{{ page.ai_model | default: "Claude" }}이(가) {{ page.date | date: "%Y.%m.%d" }}에 수집한 자료를 바탕으로 초안을 쓰고, 자체 팩트체크를 거쳐 게시했습니다.</p>
+  </div>
+  {% endif %}
+
+  {% if page.toc %}
+  <div class="post-single__toc" markdown="1">
+  * TOC
+  {:toc}
+  </div>
+  {% endif %}
+
   <div class="post-single__content">
     {{ content }}
   </div>
@@ -65,5 +79,11 @@ layout: default
     {% endif %}
     {% endif %}
   </footer>
+
+  {% if page.comments %}
+  <div class="post-comments">
+    {% include comments.html %}
+  </div>
+  {% endif %}
 
 </article>
