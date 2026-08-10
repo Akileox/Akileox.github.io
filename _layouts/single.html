@@ -35,6 +35,14 @@ layout: default
     </div>
     {% endif %}
 
+    {% if page.paper_title %}
+    <div class="paper-card">
+      <span class="paper-card__label">📄 이번 주 논문</span>
+      <p class="paper-card__title"><a href="{{ page.paper_url }}" target="_blank" rel="noopener">{{ page.paper_title }}</a></p>
+      <p class="paper-card__summary">{{ page.paper_summary }}</p>
+    </div>
+    {% endif %}
+
     {% if page.ai_generated %}
     <div class="ai-badge">
       <span class="ai-badge__tag">🤖 AI 작성</span>
