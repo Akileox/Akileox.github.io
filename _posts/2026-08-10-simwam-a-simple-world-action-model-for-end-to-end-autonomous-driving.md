@@ -12,6 +12,9 @@ excerpt: "SimWAM은 비디오 생성 모델의 지식을 학습 때만 빌리고
 paper_title: "SimWAM: A Simple World Action Model for End-to-End Autonomous Driving"
 paper_summary: "SimWAM은 비디오 생성 모델의 지식을 학습 때만 빌리고 추론 시엔 완전히 떼어내 저지연 자율주행 플래닝을 달성한다."
 paper_url: "https://huggingface.co/papers/2608.07468"
+header:
+  image: "/assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-1.png"
+  teaser: "/assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-1.png"
 ---
 
 ## 이번 주에 이 논문을 고른 이유
