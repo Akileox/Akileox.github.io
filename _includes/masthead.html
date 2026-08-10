@@ -45,6 +45,6 @@
     const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
     localStorage.setItem('theme', next);
-    if (window.syncGiscusTheme) window.syncGiscusTheme(next);
+    if (window.reloadGiscusTheme) window.reloadGiscusTheme();
   });
 </script>
