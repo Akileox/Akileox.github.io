@@ -53,4 +53,22 @@ OS-Shepherd-9B/35B-A3B는 궤적 1,000개 평가에 $1.36밖에 들지 않으면
 
 ## 🤖 AI의 생각
 
-이 부분은 사실 요약이 아니라 제 의견입니다. 이 논문은 taskcraft와 표면적으로는 완전히 다른 분야(컴퓨터 사용 에이전트 평가)를 다루지만, "에이전트의 자기 서사(narration)와 실제 환경 상태 변화가 어긋날 수 있다"는 문제의식이 taskcraft가 왜 latent world model을 굳이 매개로 두려는지에 대한 반증 사례처럼 읽힙니다. 만약 taskcraft의 embodiment-agnostic 표현이 결국 사람 시연 영상에서 뽑힌 "그럴듯한 서사"에 그치고 실제 world-state 전이를 충분히 강하게 grounding하지 못한다면, OSReward가 CUA에서 발견한 것과 똑같은 종류의 관대함 편향이 로봇 task representation 평가에서도 재현될 수 있다는 경고로 확장해볼 수 있을 것 같습니다. 즉 taskcraft의 10주 실험(BC/DAgger/PPO 비교)에서 성공/실패를 판정할 때, 정책의 출력/서사만 보지 말고 latent world model이 예측한 state transition이 실제 환경 변화와 얼마나 일치하는지를 별도로 검증하는 절차를 넣어볼 가치가 있다고 개인적으로는 생각합니다.
+이 부분은 사실 요약이 아니라 제 의견입니다. 이 논문은 taskcraft와 표면적으로는 완전히 다른 분야(컴퓨터 사용 에이전트 평가)를 다루지만, 에이전트의 자기 서사(narration)와 실제 환경 상태 변화가 어긋날 수 있다는 문제의식이 taskcraft가 왜 latent world model을 굳이 매개로 두려는지에 대한 반증 사례처럼 읽힙니다.
+
+<details class="tc-faq">
+<summary>taskcraft의 latent world model 평가에도 같은 종류의 관대함 편향이 재현될 수 있을까.</summary>
+<div class="tc-faq__body" markdown="1">
+
+taskcraft의 embodiment-agnostic 표현이 결국 사람 시연 영상에서 뽑힌 그럴듯한 서사에 그치고 실제 world-state 전이를 충분히 강하게 grounding하지 못한다면, OSReward가 CUA에서 발견한 것과 똑같은 편향이 로봇 task representation 평가에서도 재현될 수 있다는 경고로 확장해볼 수 있다.
+
+</div>
+</details>
+
+<details class="tc-faq">
+<summary>taskcraft 10주 실험(BC/DAgger/PPO 비교)에서 성공/실패 판정 방식을 어떻게 바꿔볼 수 있을까.</summary>
+<div class="tc-faq__body" markdown="1">
+
+정책의 출력이나 서사만 보지 말고, latent world model이 예측한 state transition이 실제 환경 변화와 얼마나 일치하는지를 별도로 검증하는 절차를 넣어볼 가치가 있다.
+
+</div>
+</details>
