@@ -17,6 +17,7 @@ classes: wide
     <button class="blog-filter__btn" data-filter="Idea">Idea</button>
     <button class="blog-filter__btn" data-filter="Project">Project</button>
     <button class="blog-filter__btn" data-filter="Mentoring">Mentoring</button>
+    <button class="blog-filter__btn" data-filter="AI">AI</button>
   </div>
 
   <!-- Post List -->
