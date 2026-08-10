@@ -618,12 +618,41 @@ a, a:visited {
     font-size: 0.95rem;
     line-height: 1.9;
     color: var(--text);
+    word-break: keep-all; // 한글 단어 중간에서 안 끊기게(양쪽 정렬과 같이 쓸 때 특히 중요)
+    overflow-wrap: break-word;
 
     h2 { font-size: 1.15rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; }
     h3 { font-size: 1rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.5rem; }
-    p { margin-bottom: 1.1rem; }
+    p { margin-bottom: 1.1rem; text-align: justify; text-justify: inter-word; }
 
     a { color: var(--accent); &:hover { text-decoration: underline; } }
+
+    // 코드 블록 위 파일명/언어 헤더 바(선택적으로 씀, panddu 참고)
+    .code-block-header {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      color: var(--text-muted);
+      & + pre { margin-top: 0; border-radius: 0 0 8px 8px; }
+    }
+
+    // 유튜브 등 영상 링크 — 브랜드 색으로 눈에 띄게(콘텐츠에 등장할 때만 사용)
+    .video-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: #e62117;
+      text-decoration: none;
+      margin: 0.5rem 0 1.25rem;
+      svg { flex-shrink: 0; }
+      span { border-bottom: 1px solid rgba(230, 33, 23, 0.35); }
+      &:hover { opacity: 0.85; }
+    }
 
     code {
       font-size: 0.82em;
@@ -715,6 +744,41 @@ a, a:visited {
   margin-top: 2rem;
 
   .section-label { margin-bottom: 1.25rem; }
+}
+
+// ======================
+// 이번 주 논문 카드 (§9 akileo-vault pipeline)
+// ======================
+
+.paper-card {
+  margin-bottom: 1rem;
+  padding: 1rem 1.2rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  line-height: 1.6;
+
+  &__label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+
+  &__title a {
+    font-weight: 600;
+    color: var(--text);
+    &:hover { color: var(--accent); }
+  }
+
+  &__title { margin: 0 0 0.3rem; }
+
+  &__summary {
+    margin: 0;
+    color: var(--text-muted);
+  }
 }
 
 // ======================
@@ -829,6 +893,18 @@ a, a:visited {
   background: #2b230c;
   border-left-color: #fcd34d;
   color: #fcd34d;
+}
+
+// ======================
+// References (§9 akileo-vault pipeline — taskcraft 페이지의 tc-ref 재사용)
+// ======================
+
+.post-references {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+
+  .section-label { margin-bottom: 1rem; }
 }
 
 // ======================
