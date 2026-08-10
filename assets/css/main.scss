@@ -691,6 +691,70 @@ a, a:visited {
   .section-label { margin-bottom: 1.25rem; }
 }
 
+// ======================
+// AI badge (§9 akileo-vault pipeline)
+// ======================
+
+.ai-badge {
+  margin-bottom: 2rem;
+  padding: 1rem 1.2rem;
+  background: var(--accent-light);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+
+  &__tag {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
+}
+
+// ======================
+// In-content TOC (kramdown, §9)
+// ======================
+
+.post-single__toc {
+  margin-bottom: 2rem;
+  padding: 1rem 1.3rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+
+  ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+  li { margin-bottom: 0.3rem; }
+  a { color: var(--text-muted); &:hover { color: var(--accent); } }
+}
+
+// ======================
+// Comments (giscus, §9)
+// ======================
+
+.post-comments {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+
+  .page__comments-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+}
+
 // MM default page wrapper overrides for single posts
 .layout--single .page,
 .layout--single .page__inner-wrap,
