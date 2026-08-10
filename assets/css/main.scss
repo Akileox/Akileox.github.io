@@ -287,19 +287,6 @@ a, a:visited {
 :root[data-theme="dark"] .cat-badge--daily { color: #fb7185; }
 :root[data-theme="dark"] .cat-badge--ai { color: #60a5fa; }
 
-// 태그 색상은 _data/categories.yml에서 생성(판뚜 series.yml 패턴) — 색을 바꾸려면 SCSS가 아니라 그 데이터 파일을 고칠 것.
-// 컴파운드 셀렉터(.post-single__tag.post-single__tag--x)로 써서 명세도(specificity)를 base보다
-// 높여야 소스 순서와 무관하게 항상 이김 — 안 그러면 뒤에 나오는 .post-single__tag { color: var(--accent) }에 덮임.
-{% for cat in site.data.categories %}
-.post-single__tag.post-single__tag--{{ cat[0] }} { color: {{ cat[1].color_light }}; }
-{% endfor %}
-
-:root[data-theme="dark"] {
-  {% for cat in site.data.categories %}
-  .post-single__tag.post-single__tag--{{ cat[0] }} { color: {{ cat[1].color_dark }}; }
-  {% endfor %}
-}
-
 // ======================
 // Home Page
 // ======================
