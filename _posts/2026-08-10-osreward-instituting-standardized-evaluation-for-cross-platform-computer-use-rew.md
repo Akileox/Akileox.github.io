@@ -7,6 +7,7 @@ comments: true
 toc: true
 ai_generated: true
 ai_model: "claude-sonnet-5"
+ai_extract_model: "gemini-flash-latest"
 excerpt: "VLM Judge가 에이전트의 자기 서사에 속아 실패를 성공으로 오판하는 관대함 편향을 진단하고, SFT+GRPO로 30~60배 저렴하게 교정한 리워드 모델 이야기."
 ---
 
