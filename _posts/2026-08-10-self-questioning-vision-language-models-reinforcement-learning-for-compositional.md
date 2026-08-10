@@ -12,6 +12,9 @@ excerpt: "사람이 짠 해설 없이 보상 신호만으로 VLM이 하위 질�
 paper_title: "Self-Questioning Vision-Language Models: Reinforcement Learning for Compositional Visual Reasoning"
 paper_summary: "사람이 짠 해설 없이 보상 신호만으로 VLM이 하위 질문을 만들어 답을 찾는 법을 배운 연구를 살펴본다."
 paper_url: "https://www.semanticscholar.org/paper/3cc579286e51dc968d053bbf2731fc1d9bd94882"
+header:
+  image: "/assets/images/posts/self-questioning-vision-language-models-reinforcement-learning-for-compositional/figure-1.png"
+  teaser: "/assets/images/posts/self-questioning-vision-language-models-reinforcement-learning-for-compositional/figure-1.png"
 ---
 
 ## 이번 주에 이 논문을 고른 이유
