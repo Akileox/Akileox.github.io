@@ -7,6 +7,7 @@ comments: true
 toc: true
 ai_generated: true
 ai_model: "claude-sonnet-5"
+ai_extract_model: "gemini-flash-latest"
 excerpt: "수술 VLM에 SAM을 붙이며 픽셀과 언어 사이를 잇는 매개 토큰 하나를 만든 연구를 뜯어봤다."
 paper_title: "Object Tokens as a Bridge Between Segmentation and Visual Question Answering in Robotic Surgery"
 paper_summary: "수술 VLM에 SAM을 붙이며 픽셀과 언어 사이를 잇는 매개 토큰 하나를 만든 연구를 뜯어봤다."
