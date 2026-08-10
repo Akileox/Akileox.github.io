@@ -108,30 +108,6 @@ layout: default
     <div class="post-comments">
       {% include comments.html %}
     </div>
-    <script>
-      // giscus는 빌드 시점 정적 테마(site.comments.giscus.theme)로 뜨므로, 실제 방문자의
-      // 다크모드 상태(로컬스토리지/토글)에 맞춰 로드 직후 + 토글 클릭 시 강제로 동기화한다.
-      (function () {
-        window.syncGiscusTheme = function (theme) {
-          var frame = document.querySelector('iframe.giscus-frame');
-          if (!frame) return false;
-          frame.contentWindow.postMessage(
-            { giscus: { setConfig: { theme: theme === 'dark' ? 'dark_dimmed' : 'light' } } },
-            'https://giscus.app'
-          );
-          return true;
-        };
-        // postMessage는 상대가 아직 안 듣고 있어도 에러 없이 "성공"한다 — 그래서 iframe 엘리먼트가
-        // 생기자마자(giscus 내부 앱이 뜨기 전) 첫 시도에 멈추면 그 메시지는 유실된다(토글을 눌러야만
-        // 반영되던 버그의 원인). 고정된 시간 동안 계속 재전송해서 앱이 뜬 뒤의 시도가 반드시 먹히게 한다.
-        var tries = 0;
-        var timer = setInterval(function () {
-          tries++;
-          window.syncGiscusTheme(document.documentElement.dataset.theme);
-          if (tries > 20) clearInterval(timer);
-        }, 300);
-      })();
-    </script>
     {% endif %}
 
   </div>
