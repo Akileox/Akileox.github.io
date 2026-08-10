@@ -24,7 +24,7 @@ layout: default
 
       {% if page.tags.size > 0 %}
       <div class="post-single__tags">
-        {% for tag in page.tags %}<a href="/tags/#{{ tag | slugify }}" class="post-single__tag">#{{ tag }}</a>{% endfor %}
+        {% for tag in page.tags %}{% assign tag_data = site.data.categories[tag] %}<a href="/tags/#{{ tag | slugify }}" class="post-single__tag post-single__tag--{{ tag | slugify }}"{% if tag_data.description %} title="{{ tag_data.description }}"{% endif %}>#{{ tag_data.name | default: tag }}</a>{% endfor %}
       </div>
       {% endif %}
     </header>
