@@ -7,6 +7,7 @@ comments: true
 toc: true
 ai_generated: true
 ai_model: "claude-sonnet-5"
+ai_extract_model: "gemini-flash-latest"
 excerpt: "SimWAM은 비디오 생성 모델의 지식을 학습 때만 빌리고 추론 시엔 완전히 떼어내 저지연 자율주행 플래닝을 달성한다."
 paper_title: "SimWAM: A Simple World Action Model for End-to-End Autonomous Driving"
 paper_summary: "SimWAM은 비디오 생성 모델의 지식을 학습 때만 빌리고 추론 시엔 완전히 떼어내 저지연 자율주행 플래닝을 달성한다."
