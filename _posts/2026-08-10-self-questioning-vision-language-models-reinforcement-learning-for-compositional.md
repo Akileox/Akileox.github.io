@@ -7,6 +7,7 @@ comments: true
 toc: true
 ai_generated: true
 ai_model: "claude-sonnet-5"
+ai_extract_model: "gemini-flash-latest"
 excerpt: "사람이 짠 해설 없이 보상 신호만으로 VLM이 하위 질문을 만들어 답을 찾는 법을 배운 연구를 살펴본다."
 paper_title: "Self-Questioning Vision-Language Models: Reinforcement Learning for Compositional Visual Reasoning"
 paper_summary: "사람이 짠 해설 없이 보상 신호만으로 VLM이 하위 질문을 만들어 답을 찾는 법을 배운 연구를 살펴본다."
