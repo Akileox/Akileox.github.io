@@ -708,6 +708,15 @@ a, a:visited {
     img { border-radius: 8px; max-width: 100%; }
     hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 
+    // MathJax 수식이 뷰포트보다 넓으면 폭 제약이 전혀 없어서 페이지 전체 scrollWidth가 늘어나고
+    // 모바일 브라우저가 전체 레이아웃을 축소 렌더링하던 문제(2026-08-10 실측, Playwright로 재현·검증) —
+    // 수식 자체만 가로 스크롤되게 감싼다.
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+
     ul, ol { padding-left: 1.5rem; margin-bottom: 1.1rem; }
     li { margin-bottom: 0.3rem; }
 
