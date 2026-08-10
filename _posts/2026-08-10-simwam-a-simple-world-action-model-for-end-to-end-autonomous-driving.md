@@ -1,5 +1,5 @@
 ---
-title: "상상은 학습할 때만, 실전에선 바로 행동하는 자율주행 모델 SimWAM"
+title: "세계모델은 학습에만, 추론엔 버려라"
 date: 2026-08-10
 categories: [AI]
 tags: [weekly-trend, ai, computer-vision, robotics, paper-review]
@@ -7,51 +7,57 @@ comments: true
 toc: true
 ai_generated: true
 ai_model: "claude-sonnet-5"
-excerpt: "비디오 생성 월드모델을 추론에서 떼어내고 학습 신호로만 쓴 SimWAM의 지연시간 절감 전략을 뜯어본다"
+excerpt: "SimWAM은 비디오 생성 모델의 지식을 학습 때만 빌리고 추론 시엔 완전히 떼어내 저지연 자율주행 플래닝을 달성한다."
+paper_title: "SimWAM: A Simple World Action Model for End-to-End Autonomous Driving"
+paper_summary: "SimWAM은 비디오 생성 모델의 지식을 학습 때만 빌리고 추론 시엔 완전히 떼어내 저지연 자율주행 플래닝을 달성한다."
+paper_url: "https://huggingface.co/papers/2608.07468"
 ---
 
-## 왜 이 논문인가
+## 이번 주에 이 논문을 고른 이유
 
-이번 주 HuggingFace Daily Papers에서 스코어 0.76으로 뽑힌 논문이다. 자율주행 월드 모델 계열은 최근 "미래를 생성해서 계획한다"는 방향으로 몰려가는 중인데, 그 대가로 지연 시간이 초 단위까지 늘어나는 게 실제 배포 관점에서는 치명적인 문제다. SimWAM은 이 트레이드오프를 정면으로 건드리면서 "비디오 생성은 학습 때만 쓰고 추론에선 버린다"는 단순하지만 효과적인 해법을 제시한다. 구조가 명확하고 taskcraft가 다루는 latent world model 인터페이스 분리 문제와도 맞닿는 지점이 있어서 이번 주 노트로 골랐다.
+score 0.76, hf-daily 소스로 올라온 논문인데, 자율주행 World-Action Model이라는 특정 분야를 다루면서도 구조 자체는 훨씬 일반적인 질문 하나를 건드리고 있어서 눈에 띄었다. "무거운 생성 모델의 사전지식을 학습 때 흡수하고 추론 때는 버릴 수 있는가"라는 질문은 taskcraft가 latent world model과 embodiment별 정책을 분리하려는 시도와 뼈대가 겹친다. 그래서 이번 주 노트로 골랐다.
 
-## 문제 제기: 상상하고 나서 움직이면 너무 느리다
+## 문제 제기: Imagine-Then-Act의 대가
 
-DriveLaW, DriveWAM 같은 기존 월드-액션 모델은 "Imagine-then-Act" 구조를 쓴다. 현재 관측을 받아 먼저 미래 장면(비디오)을 생성하고, 그 상상된 미래를 바탕으로 주행 경로를 뽑는 방식이다. 논리적으로는 그럴듯하다. 미래를 예측할 수 있다면 그 예측 위에서 계획을 세우는 게 더 안전할 테니까. 문제는 이 비디오 생성 모듈이 무겁다는 점이다. 프레임 단위로 diffusion이나 flow matching을 여러 스텝 돌려야 하니, 추론 루프 안에 비디오 생성이 들어가는 순간 지연 시간이 1.5초에서 3초 이상으로 늘어난다. 자율주행처럼 매 순간 반응해야 하는 태스크에서 이건 실제로 못 쓴다는 뜻이나 다름없다.
+자율주행 플래닝에 World-Action Model을 쓰는 최근 흐름은 대체로 이런 순서를 따른다. 먼저 미래 프레임을 비디오로 합성하고, 그 합성된 미래를 조건으로 삼아 궤적을 계획한다. DriveLaW나 DriveWAM 같은 모델들이 이 방식이다. 비디오라는 형태로 미래를 명시적으로 그려보니 플래너가 참고할 정보가 풍부해지는 건 사실이다.
 
-또 다른 축의 문제는 학습 방식 자체에 있다. 전문가 궤적을 그대로 따라가는 모방 학습만으로는 도로 준수나 충돌 회피 같은 복합적인 주행 품질을 직접 최적화하기 어렵다. 궤적을 베끼는 것과 안전하게 운전하는 것 사이에는 거리가 있다.
+문제는 이 비디오 합성 과정 자체가 계산량이 크다는 점이다. Diffusion 기반 비디오 생성은 수십 스텝의 디노이징을 거쳐야 하고, 이걸 실시간 주행 루프 안에 그대로 끼워 넣으면 지연 시간이 눈에 띄게 늘어난다. Figure 1을 보면 기존 WAM 계열 플래너들은 2000ms 이상의 latency를 소모하는데, 이는 실차 배포를 생각하면 받아들이기 어려운 수준이다.
 
-## 왜 안 됐는지: 비디오 생성과 액션 예측이 한 몸으로 묶여 있었다
+## 왜 안 됐는지: 지식과 실행이 한 몸에 묶여 있다
 
-기존 구조에서 비디오 생성과 경로 계획이 순차적으로 연결되어 있다 보니, 두 모듈을 분리하려면 비디오가 담고 있는 동역학 지식(다른 차량이 어떻게 움직이는지, 도로가 어떻게 이어지는지)을 액션 모듈이 다시 배워야 한다. 그런데 액션 모듈만 따로 학습시키면 이 물리적 직관을 얻을 방법이 없다. 결국 "비디오를 실제로 생성해서 참조하는" 방식 외에는 답이 없어 보였고, 그래서 다들 지연 시간을 감수하고 Imagine-then-Act를 택해온 셈이다.
+여기서 근본적인 원인은 비디오 생성과 궤적 예측이 하나의 파이프라인 안에서 순차적으로 묶여 있다는 데 있다. 비디오 생성 모델이 배운 교통 역학(traffic dynamics) 사전지식 자체는 유용하다. 다른 차량이 어떻게 움직이고 도로가 어떻게 이어지는지에 대한 표현을 잘 학습했기 때문이다. 하지만 그 지식을 쓰려면 매번 실제로 비디오를 다시 렌더링해야 하는 구조라서, 지식과 실행이 분리되지 못하고 지연 시간에 그대로 발목이 잡힌다.
 
-## 고친 방법: 어텐션을 격리해서 지식만 훔쳐온다
+## 고친 방법: 학습 때만 붙이고 추론 때 떼어낸다
 
-SimWAM의 핵심 아이디어는 간단하다. 학습 단계에서는 비디오 생성 모델(Video Expert)과 경량 액션 모델(Action Expert)을 하나의 Mixture-of-Transformers처럼 공동 학습시키되, 어텐션 마스크를 걸어서 액션 토큰이 미래 비디오 토큰을 참조하지 못하게 막는다. 이 고립된 어텐션 마스크(Isolated Attention Mask) 덕분에 두 모듈은 같은 인코더 표현을 공유하면서도 서로의 미래 출력에는 접근하지 못한다. 학습이 끝나면 비디오 모듈은 통째로 떼어낼 수 있고, 남은 액션 모듈만으로 추론이 가능해진다.
+SimWAM의 해법은 의외로 단순하다. 사전 학습된 비디오 전문가(Video DiT)와 경량 행동 전문가(Action DiT)를 흐름 매칭(flow matching)으로 공동 학습시키되, Isolated Attention Mask라는 장치를 둔다. 이 마스크는 행동 토큰이 현재 관측 표현만 참조하도록 하고, 미래 비디오 토큰은 절대 들여다보지 못하게 차단한다.
 
-![SimWAM 구조 개요: 학습 시 Video DiT와 Action DiT가 Isolated Attention으로 격리되어 공동 학습되고, 추론과 RL 단계에서는 Video DiT가 제거된다](/assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-2.png)
+이렇게 학습을 마치고 나면 재미있는 일이 생긴다. 행동 전문가는 애초에 미래 비디오 토큰에 의존한 적이 없으므로, 배포 시점에 비디오 DiT와 비디오 VAE 디코더를 통째로 버려도 성능에 지장이 없다. 남는 건 경량 Action DiT뿐이고, 이게 관측을 받아 곧바로 궤적을 뽑아낸다. 두 전문가가 가중치를 공유하지 않고 attention이라는 단일 인터페이스로만 소통하기 때문에 비디오 백본을 Wan2.2나 Cosmos2.5로 자유롭게 바꾸거나 Action DiT 크기만 독립적으로 키우는 것도 가능하다.
 
-학습 목적함수는 두 모듈의 flow matching 손실을 합친 형태다.
+이미지 확인: /assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-2.png
 
-$$\mathcal{L}_{\text{FM}} = \mathbb{E}_{x,\epsilon,\tau} \left[ \| v_\theta(x_\tau, \tau, c) - (\epsilon - x) \|_2^2 \right]$$
-
-$$\mathcal{L} = \mathcal{L}_{\text{FM}}^{\text{act}} + \lambda \mathcal{L}_{\text{FM}}^{\text{vid}}$$
-
-여기서 $$x$$는 액션 궤적이거나 미래 비디오 프레임이고, $$x_\tau = (1-\tau)x + \tau\epsilon$$는 노이즈와 데이터를 보간한 중간 상태다. 액션 손실과 비디오 손실을 동시에 최소화하면서 공유 인코더가 두 태스크에 모두 쓸모 있는 표현을 갖게 만드는 게 이 수식의 역할이다. 별다른 새 손실을 발명한 건 아니고, 격리된 어텐션 구조 위에서 기존 flow matching을 그대로 얹은 셈인데, 그 단순함이 오히려 이 논문의 장점이다.
-
-모방 학습만으로 부족한 주행 품질 문제는 강화학습으로 보완한다. Flow matching은 원래 결정론적 ODE라서 탐색이 안 되는데, 이를 확률적 SDE로 바꿔서 다양한 경로 후보를 샘플링할 수 있게 만든다.
+여기에 더해 모방 학습 이후 단계로 Flow-GRPO를 적용한다. 원래 흐름 매칭은 확정적인 ODE 경로를 따르는데, 이걸 확률적 SDE로 바꾸면
 
 $$dx_\tau = \left[ v_\theta(x_\tau, \tau) + \frac{\sigma_\tau^2}{2\tau} \left( x_\tau + (1-\tau) v_\theta(x_\tau, \tau) \right) \right] d\tau + \sigma_\tau dw, \quad \sigma_\tau = a \sqrt{\frac{\tau}{1-\tau}}$$
 
-이 변환은 원래 ODE와 동일한 한계 분포(marginal distribution)를 유지하면서 노이즈 항 $$dw$$를 추가한 것이라서, 확률적으로 다양한 경로를 뽑아내면서도 확률 밀도 계산이 가능해진다. 이렇게 샘플링한 경로들에 NAVSIM PDM 주행 보상을 매기고 GRPO로 그룹 상대적 정책 최적화를 돌리는 게 논문에서 말하는 Flow-GRPO다.
+궤적 샘플링에 다양성이 생기고, 이걸 바탕으로 NAVSIM PDM 보상을 기준 삼아 GRPO로 정책을 추가 개선한다. 즉 모방 학습으로 기본기를 다지고, RL로 실제 주행 품질 지표에 맞춰 미세 조정하는 이중 구조다.
 
-## 결과: 지연 시간은 3분의 1, 점수는 최고점
+## 결과: 성능은 유지하고 지연은 버린다
 
-NAVSIM 벤치마크에서 SimWAM은 91.5 PDMS를 달성하면서 지연 시간은 500ms대에 머문다. 기존 월드-액션 모델들이 1,500ms에서 3,000ms 이상 걸리던 것과 비교하면 3배에서 6배 가까이 빠르면서도 점수는 오히려 더 높다.
+/assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-1.png
 
-![NAVSIM 벤치마크에서 기존 플래너 대비 SimWAM의 주행 점수와 추론 지연 시간을 비교한 그래프, 비디오 생성 모듈을 제거해 500ms대 지연으로 91.5 PDMS를 달성](/assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-1.png)
+Figure 1의 latency-PDMS 그래프가 이 논문의 핵심 주장을 그대로 보여준다. 비디오 생성을 추론 루프에서 들어낸 SimWAM은 500ms대의 낮은 latency를 유지하면서도 NAVSIM PDMS 91.5라는 최상위 수치를 기록한다. 기존 WAM 계열이 2000ms 이상을 쓰면서 도달하던 성능대를 4분의 1도 안 되는 지연으로 달성한 셈이다.
 
-이 결과가 말해주는 건 결국 "비디오를 실시간으로 생성해서 참조하는 것"이 성능의 필수 조건이 아니었다는 점이다. 학습 시점에 동역학 지식을 인코더에 충분히 스며들게 할 수만 있다면, 추론 시점에는 그 생성 과정 자체가 없어도 된다. 다만 이 방식이 통하려면 어텐션 마스크로 정보를 얼마나 깔끔하게 격리시키느냐가 관건이라, 마스크 설계가 조금이라도 새면 액션 모듈이 미래 비디오 토큰에 편법으로 의존하게 될 위험은 남아 있다. 논문에서 이 leak 여부를 정량적으로 어떻게 검증했는지는 조금 더 살펴볼 필요가 있어 보인다.
+다만 이 결과가 공짜로 나온 건 아니다. 학습 단계에서는 여전히 비디오 DiT를 통째로 함께 돌려야 하므로 학습 비용 자체가 줄어드는 건 아니고, 논문에서도 이 트레이드오프를 학습 비용을 늘려서 추론 비용을 낮추는 선택이라고 명확히 구분해서 다룬다. 또 Isolated Attention Mask가 정말로 지식 전이에 필요한 만큼의 정보만 통과시키는지, 아니면 더 세밀하게 조율할 여지가 있는지는 이 논문만으로는 판단하기 어렵다.
 
 ## 🤖 AI의 생각
 
-이 논문에서 가장 흥미로웠던 지점은 Imagine-then-Act의 순서를 학습과 추론 사이에서 완전히 갈라놓았다는 발상이다. "숙련자는 매번 미래를 시뮬레이션하지 않고도 몸이 먼저 반응한다"는 직관과 비슷한 구조라서, latent world model이 꼭 추론 시점까지 살아있어야 하는 건 아닐 수도 있다는 힌트로 읽힌다. taskcraft가 상정하는 "latent는 공유하고 디코더만 갈아 끼운다"는 인터페이스 분리 아이디어와도 방향이 겹치는데, 이 논문은 같은 embodiment(차량-궤적) 안에서의 지연 시간 최적화 트릭에 가깝고, taskcraft가 궁금해하는 "표현이 다른 신체로 옮겨가는가"라는 질문에는 직접 답하지 않는다. 그래도 Isolated Attention Mask 같은 격리 학습 기법 자체는, 나중에 latent가 embodiment 정보를 얼마나 새어나가지 않게 인코딩하는지를 강제하는 훈련 트릭으로 변형해볼 여지가 있어 보인다.
+이 논문은 세계 모델을 학습 때만 쓰고 추론 때는 버린다는 실용적인 트레이드오프를 아주 깔끔하게 구현한 사례라서, 세계 모델을 매개로 표현을 이식하려는 모든 프로젝트가 결국 부딪힐 질문에 하나의 실증적 답을 제시한다는 인상을 받았다. 그 질문은 세계 모델이 가진 지식을 얼마나, 어떤 형태로 하위 실행 모듈에 증류할 것인가인데, SimWAM은 별도의 distillation 단계 없이 공동 학습과 attention mask 하나로 이걸 해결했다. 개인적으로 더 파고들고 싶은 지점은, 이 마스크가 정말 필요한 만큼의 지식만 새어 들어가게 하는지, 아니면 학습 초반에는 정보가 더 많이 흘러가다가 후반에 정리되는 식의 동역학이 숨어 있는지인데 논문에서는 이 부분을 깊게 다루지 않는다.
+
+taskcraft 입장에서 흥미로운 건 이 구조가 만약 cross-embodiment 세팅으로 확장된다면 어떻게 될까 하는 상상이다. Video DiT가 사람의 시연 영상을 담당하고 Action DiT가 로봇 관절을 담당하며 둘 사이를 attention으로만 연결한다면, taskcraft가 상정하는 공유 latent와 embodiment별 디코더 구조와 거의 같은 모양이 된다. 다만 이건 어디까지나 내 추측이고, 자율주행은 카메라 시점과 행동 공간이 이미 상당히 정렬된 비교적 닫힌 문제라는 점을 감안해야 한다. 몸의 형태 자체가 근본적으로 다른 경우, 예를 들어 조류형 로봇과 사람 손 사이에서도 이 attention 기반 분리가 버텨줄지는 훨씬 회의적으로 봐야 한다고 생각한다. 이 논문이 푼 건 같은 몸 안에서 감각과 행동을 분리하는 문제이지, 다른 몸으로 지식을 옮기는 문제는 아니라는 구분을 분명히 해두고 싶다.
+
+<div class="post-references">
+<p class="section-label">참고문헌</p>
+<div class="tc-refs">
+<div class="tc-ref"><span class="tc-ref__group">원문</span><span class="tc-ref__item"><a href="https://huggingface.co/papers/2608.07468" target="_blank" rel="noopener">SimWAM: A Simple World Action Model for End-to-End Autonomous Driving</a> · hf-daily</span></div>
+</div>
+</div>
