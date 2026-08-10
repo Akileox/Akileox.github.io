@@ -554,7 +554,7 @@ a, a:visited {
 // ======================
 
 .post-single {
-  max-width: 760px;
+  max-width: 880px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
 
@@ -615,7 +615,7 @@ a, a:visited {
   }
 
   &__content {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     line-height: 1.9;
     color: var(--text);
     word-break: keep-all; // 한글 단어 중간에서 안 끊기게(양쪽 정렬과 같이 쓸 때 특히 중요)
@@ -847,11 +847,11 @@ a, a:visited {
 // 와이드 레이아웃 — 넓은 화면에서 본문 옆 여백을 sticky TOC로 활용
 // ======================
 
-@media (min-width: 1180px) {
+@media (min-width: 1300px) {
   .post-single--with-toc {
-    max-width: 1160px;
+    max-width: 1280px;
     display: grid;
-    grid-template-columns: minmax(0, 760px) 320px;
+    grid-template-columns: minmax(0, 880px) 320px;
     gap: 3.5rem;
     align-items: start;
 
