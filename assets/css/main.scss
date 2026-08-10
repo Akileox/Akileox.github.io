@@ -407,34 +407,37 @@ a, a:visited {
   padding: 2.5rem 1.5rem 4rem;
 }
 
-// Blog 목록 페이지 전용 — 넓은 화면에서 .blog-wrap 오른쪽에 남는 여백에 떠 있는 진입 버튼.
-// 좁은 화면엔 그 여백이 없으니 숨김(nav에 넣지 않는 이유도 동일 — 통일성 안 맞고 자리도 없음).
-.blog-request-fab {
-  display: none;
-  position: fixed;
-  top: 50%;
-  right: 2rem;
-  transform: translateY(-50%);
+// Blog 목록 페이지 전용 — 넓은 화면 오른쪽 여백에 fixed로 띄우는 방식은 실측해보니(2026-08-10)
+// .blog-wrap의 max-width(1140px) + 좁은 padding 때문에 1400px보다 좁은 화면(특히 Windows 배율
+// 적용 시 흔한 1280~1366 CSS px대)에서는 겹치거나 여백 자체가 부족해서 안 보이는 문제가 있었음 —
+// 화면 폭에 기대지 않고 헤더 안에 항상 보이는 버튼으로 교체.
+.blog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.blog-request-btn {
+  display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.6rem 0.9rem;
+  padding: 0.5rem 0.85rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 999px;
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   text-decoration: none !important;
+  white-space: nowrap;
   transition: color 0.15s, border-color 0.15s;
-  z-index: 10;
 
   svg { flex-shrink: 0; }
 
   &:hover { color: var(--accent); border-color: var(--accent); }
-}
-
-@media (min-width: 1400px) {
-  .blog-request-fab { display: flex; }
 }
 
 .blog-filter {
