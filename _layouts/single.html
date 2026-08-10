@@ -46,18 +46,18 @@ layout: default
     {% if page.ai_generated %}
       {% assign ai_model_lc = page.ai_model | default: "" | downcase %}
       {% if ai_model_lc contains "claude" %}
-        {% assign ai_icon = "🟠" %}
+        {% assign ai_icon_src = "/assets/images/badges/claude-icon.png" %}
         {% assign ai_name = "Claude" %}
       {% elsif ai_model_lc contains "gemini" %}
-        {% assign ai_icon = "🔵" %}
+        {% assign ai_icon_src = "/assets/images/badges/gemini-icon.png" %}
         {% assign ai_name = "Gemini" %}
       {% else %}
-        {% assign ai_icon = "🤖" %}
+        {% assign ai_icon_src = "" %}
         {% assign ai_name = page.ai_model | default: "AI" %}
       {% endif %}
     <div class="ai-badge">
       <span class="ai-badge__tag">
-        {% if page.ai_extract_model %}🔵 Gemini 분석 → {% endif %}{{ ai_icon }} {{ ai_name }} 작성
+        {% if page.ai_extract_model %}<img src="/assets/images/badges/gemini-icon.png" alt="Gemini" class="ai-badge__icon"> Gemini 분석 → {% endif %}{% if ai_icon_src != "" %}<img src="{{ ai_icon_src }}" alt="{{ ai_name }}" class="ai-badge__icon"> {% else %}🤖 {% endif %}{{ ai_name }} 작성
       </span>
       <p>{{ page.date | date: "%Y.%m.%d" }}에 수집한 자료를 바탕으로{% if page.ai_extract_model %} Gemini가 논문의 그림·수식을 1차로 구조화 추출하고, {% endif %}{{ ai_name }}가 초안을 쓰고, 자체 팩트체크를 거쳐 게시했습니다.</p>
     </div>
