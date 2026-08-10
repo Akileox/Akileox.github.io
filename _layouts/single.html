@@ -3,87 +3,130 @@ layout: default
 ---
 
 {% assign cat = page.categories.first | downcase %}
+{% assign toc_source = content | split: '<div class="lang-content" data-lang="ko"' | first %}
 
-<article class="post-single">
+<article class="post-single{% if page.toc %} post-single--with-toc{% endif %}">
 
-  <header class="post-single__header">
-    {% if page.categories.first %}
-    <a href="/blog/" class="post-single__cat cat-badge cat-badge--{{ cat }}">{{ page.categories.first }}</a>
+  <div class="post-single__main">
+
+    <header class="post-single__header">
+      {% if page.categories.first %}
+      <a href="/blog/" class="post-single__cat cat-badge cat-badge--{{ cat }}">{{ page.categories.first }}</a>
+      {% endif %}
+
+      <h1 class="post-single__title">{{ page.title }}</h1>
+
+      <div class="post-single__meta">
+        <span class="post-single__author">SeungMin Lee</span>
+        <span class="post-single__sep">·</span>
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y. %m. %d" }}</time>
+      </div>
+
+      {% if page.tags.size > 0 %}
+      <div class="post-single__tags">
+        {% for tag in page.tags %}<a href="/tags/#{{ tag | slugify }}" class="post-single__tag">#{{ tag }}</a>{% endfor %}
+      </div>
+      {% endif %}
+    </header>
+
+    {% if page.header.image or page.header.teaser %}
+    <div class="post-single__hero">
+      <img src="{{ page.header.image | default: page.header.teaser | relative_url }}" alt="{{ page.title }}">
+    </div>
     {% endif %}
 
-    <h1 class="post-single__title">{{ page.title }}</h1>
-
-    <div class="post-single__meta">
-      <span class="post-single__author">SeungMin Lee</span>
-      <span class="post-single__sep">·</span>
-      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y. %m. %d" }}</time>
-    </div>
-
-    {% if page.tags.size > 0 %}
-    <div class="post-single__tags">
-      {% for tag in page.tags %}<a href="/tags/#{{ tag | slugify }}" class="post-single__tag">#{{ tag }}</a>{% endfor %}
+    {% if page.ai_generated %}
+    <div class="ai-badge">
+      <span class="ai-badge__tag">🤖 AI 작성</span>
+      <p>{{ page.ai_model | default: "Claude" }}이(가) {{ page.date | date: "%Y.%m.%d" }}에 수집한 자료를 바탕으로 초안을 쓰고, 자체 팩트체크를 거쳐 게시했습니다.</p>
     </div>
     {% endif %}
-  </header>
 
-  {% if page.header.image or page.header.teaser %}
-  <div class="post-single__hero">
-    <img src="{{ page.header.image | default: page.header.teaser | relative_url }}" alt="{{ page.title }}">
-  </div>
-  {% endif %}
+    {% if page.toc %}
+    <div class="post-single__toc post-single__toc--inline">
+      <p class="post-single__toc-label">Contents</p>
+      {% include toc.html html=toc_source h_min=2 h_max=3 class="post-single__toc-list" %}
+    </div>
+    {% endif %}
 
-  {% if page.ai_generated %}
-  <div class="ai-badge">
-    <span class="ai-badge__tag">🤖 AI 작성</span>
-    <p>{{ page.ai_model | default: "Claude" }}이(가) {{ page.date | date: "%Y.%m.%d" }}에 수집한 자료를 바탕으로 초안을 쓰고, 자체 팩트체크를 거쳐 게시했습니다.</p>
+    <div class="post-single__content">
+      {{ content }}
+    </div>
+
+    <footer class="post-single__footer">
+      {% if page.share %}{% include social-share.html %}{% endif %}
+
+      {% if page.related %}
+      {% assign related_posts = site.related_posts | limit: 3 %}
+      {% if related_posts.size > 0 %}
+      <div class="post-related">
+        <p class="section-label">You may also enjoy</p>
+        <div class="blog-list">
+          {% for p in related_posts %}
+          <a href="{{ p.url | relative_url }}" class="blog-list-item">
+            {% if p.header.teaser %}
+            <div class="blog-list-item__img">
+              <img src="{{ p.header.teaser | relative_url }}" alt="{{ p.title }}">
+            </div>
+            {% endif %}
+            <div class="blog-list-item__content">
+              {% assign pcat = p.categories.first | downcase %}
+              <span class="cat-badge cat-badge--{{ pcat }}">{{ p.categories.first }}</span>
+              <h3 class="blog-list-item__title">{{ p.title }}</h3>
+              <p class="blog-list-item__meta">{{ p.date | date: "%Y. %m. %d" }}</p>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      {% endif %}
+    </footer>
+
+    {% if page.comments %}
+    <div class="post-comments">
+      {% include comments.html %}
+    </div>
+    <script>
+      // giscus는 빌드 시점 정적 테마(site.comments.giscus.theme)로 뜨므로, 실제 방문자의
+      // 다크모드 상태(로컬스토리지/토글)에 맞춰 로드 직후 + 토글 클릭 시 강제로 동기화한다.
+      (function () {
+        window.syncGiscusTheme = function (theme) {
+          var frame = document.querySelector('iframe.giscus-frame');
+          if (!frame) return false;
+          frame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme: theme === 'dark' ? 'dark_dimmed' : 'light' } } },
+            'https://giscus.app'
+          );
+          return true;
+        };
+        var tries = 0;
+        var timer = setInterval(function () {
+          tries++;
+          var ok = window.syncGiscusTheme(document.documentElement.dataset.theme);
+          if (ok || tries > 20) clearInterval(timer);
+        }, 300);
+      })();
+    </script>
+    {% endif %}
+
   </div>
-  {% endif %}
 
   {% if page.toc %}
-  <div class="post-single__toc">
-    <p class="post-single__toc-label">Contents</p>
-    {% include toc.html html=content h_min=2 h_max=3 class="post-single__toc-list" %}
-  </div>
-  {% endif %}
-
-  <div class="post-single__content">
-    {{ content }}
-  </div>
-
-  <footer class="post-single__footer">
-    {% if page.share %}{% include social-share.html %}{% endif %}
-
-    {% if page.related %}
-    {% assign related_posts = site.related_posts | limit: 3 %}
-    {% if related_posts.size > 0 %}
-    <div class="post-related">
-      <p class="section-label">You may also enjoy</p>
-      <div class="blog-list">
-        {% for p in related_posts %}
-        <a href="{{ p.url | relative_url }}" class="blog-list-item">
-          {% if p.header.teaser %}
-          <div class="blog-list-item__img">
-            <img src="{{ p.header.teaser | relative_url }}" alt="{{ p.title }}">
-          </div>
-          {% endif %}
-          <div class="blog-list-item__content">
-            {% assign pcat = p.categories.first | downcase %}
-            <span class="cat-badge cat-badge--{{ pcat }}">{{ p.categories.first }}</span>
-            <h3 class="blog-list-item__title">{{ p.title }}</h3>
-            <p class="blog-list-item__meta">{{ p.date | date: "%Y. %m. %d" }}</p>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
+  <aside class="post-single__sidebar">
+    <div class="post-single__toc post-single__toc--sidebar">
+      <p class="post-single__toc-label">Contents</p>
+      {% include toc.html html=toc_source h_min=2 h_max=3 class="post-single__toc-list" %}
     </div>
-    {% endif %}
-    {% endif %}
-  </footer>
-
-  {% if page.comments %}
-  <div class="post-comments">
-    {% include comments.html %}
-  </div>
+  </aside>
   {% endif %}
 
 </article>
+
+<script id="MathJax-config" type="text/x-mathjax-config">
+  window.MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
