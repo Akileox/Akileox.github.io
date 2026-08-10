@@ -737,6 +737,28 @@ a, a:visited {
 }
 
 // ======================
+// Correction notice (comment feedback loop, §8)
+// ======================
+
+.post-correction {
+  margin: 1.5rem 0;
+  padding: 1rem 1.2rem;
+  background: #fef3c7;
+  border-left: 3px solid #b45309;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.85rem;
+  color: #78350f;
+
+  p { margin: 0; }
+}
+
+:root[data-theme="dark"] .post-correction {
+  background: #2b230c;
+  border-left-color: #fcd34d;
+  color: #fcd34d;
+}
+
+// ======================
 // Comments (giscus, §9)
 // ======================
 
