@@ -40,9 +40,9 @@ layout: default
   {% endif %}
 
   {% if page.toc %}
-  <div class="post-single__toc" markdown="1">
-  * TOC
-  {:toc}
+  <div class="post-single__toc">
+    <p class="post-single__toc-label">Contents</p>
+    {% include toc.html html=content h_min=2 h_max=3 class="post-single__toc-list" %}
   </div>
   {% endif %}
 
