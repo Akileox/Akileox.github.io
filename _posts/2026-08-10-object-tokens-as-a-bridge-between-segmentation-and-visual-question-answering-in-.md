@@ -12,6 +12,9 @@ excerpt: "수술 VLM에 SAM을 붙이며 픽셀과 언어 사이를 잇는 매�
 paper_title: "Object Tokens as a Bridge Between Segmentation and Visual Question Answering in Robotic Surgery"
 paper_summary: "수술 VLM에 SAM을 붙이며 픽셀과 언어 사이를 잇는 매개 토큰 하나를 만든 연구를 뜯어봤다."
 paper_url: "https://www.semanticscholar.org/paper/feff3523b359e48cee166905f466c153464b3f87"
+header:
+  image: "/assets/images/posts/object-tokens-as-a-bridge-between-segmentation-and-visual-question-answering-in-/figure-1.png"
+  teaser: "/assets/images/posts/object-tokens-as-a-bridge-between-segmentation-and-visual-question-answering-in-/figure-1.png"
 ---
 
 ## 이번 주에 이 논문을 고른 이유
