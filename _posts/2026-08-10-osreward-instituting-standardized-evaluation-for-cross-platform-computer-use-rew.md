@@ -1,7 +1,7 @@
 ---
 title: "OSReward: \"성공했다\"는 말을 믿지 말라 — 컴퓨터 사용 에이전트 평가의 관대함 편향을 잡는 법"
 date: 2026-08-10
-categories: [Project]
+categories: [AI]
 tags: [weekly-trend, ai, computer-vision, robotics, paper-review]
 comments: true
 toc: true
