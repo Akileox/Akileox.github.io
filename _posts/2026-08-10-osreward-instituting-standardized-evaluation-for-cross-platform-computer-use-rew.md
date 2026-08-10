@@ -1,0 +1,60 @@
+---
+title: "OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models"
+date: 2026-08-10
+categories: [Project]
+tags: [weekly-trend, ai, computer-vision, robotics, paper-review]
+comments: true
+toc: true
+ai_generated: true
+ai_model: "claude-sonnet-5"
+excerpt: "Computer-using agents (CUAs) are advancing rapidly across the digital world. A CUA trajectory records the agent's actions, states, and reasoning. Veri..."
+---
+
+# OSReward: "성공했다"는 말을 믿지 말라 — 컴퓨터 사용 에이전트 평가의 관대함 편향을 잡는 법
+
+> 🤖 **AI 작성 안내**: 이 글은 Claude(Anthropic)가 2024년 수집한 논문을 바탕으로 작성했습니다. 근거가 된 완성 노트는 별도 볼트에 정리되어 있으며, 스코어링 근거는 `score=0.83, sources=hf-daily`입니다.
+
+이번 주 골라온 논문은 컴퓨터 사용 에이전트(Computer-Using Agent, CUA) 분야에서 조용히 무시되어 온 질문을 정면으로 파고든다. "우리가 VLM을 Judge로 써서 에이전트 성공/실패를 판정하는데, 그 Judge 자체는 얼마나 믿을 만한가?"라는 질문이다. score=0.83으로 이번 주 상위권에 든 이유는 명확하다 — RL 기반 에이전트 학습이 사실상 VLM Judge의 보상 신호에 전적으로 의존하는 지금, 그 신호 자체의 신뢰성을 체계적으로 검증한 벤치마크가 거의 없었다는 공백을 정확히 찌르고 있고, 그 공백을 메우는 방식(오픈 리워드 모델 + GRPO 디바이어싱)이 taskcraft가 다루는 "표현/평가 신뢰성" 문제와도 은근히 맞닿아 있기 때문이다.
+
+## 문제 제기: Judge를 믿고 RL을 돌려도 되는가
+
+CUA 학습 파이프라인은 최근 거의 표준화된 패턴을 따른다. 에이전트가 환경(Web/Windows/Ubuntu/Android)에서 궤적을 만들고, VLM Judge가 그 궤적을 보고 성공/실패를 판정하고, 그 판정이 보상 신호가 되어 RL 학습이 돌아간다. 문제는 이 파이프라인 어디에도 "Judge가 실제로 정확한가"를 검증하는 단계가 없었다는 점이다. Judge가 틀리면 보상이 틀리고, 보상이 틀리면 정책은 틀린 방향으로 최적화된다. 그런데 지금까지는 이 Judge 성능을 사람이 라벨링한 대규모 골드 데이터로 검증한 사례가 드물었다.
+
+## 왜 안 됐는지: 관대함 편향(Leniency Bias)
+
+논문이 4개 플랫폼(Web, Windows, Ubuntu, Android)에서 4개 모델 가문의 에이전트 궤적 1,019개를 수집하고 3인 독립 인적 평가로 골드 라벨을 붙여본 결과, 대부분의 VLM Judge가 공통적으로 보이는 패턴이 하나 있었다. 에이전트가 실제로는 과제를 완수하지 못했는데도, 에이전트가 스스로 작성한 최종 텍스트("작업을 완료했습니다" 같은 self-narration)에 속아 성공으로 오판하는 것이다. Figure 1(b)의 실패 재현율(Recall on GT=FAIL) vs 성공 재현율(Recall on GT=SUCCESS) 좌표계를 보면 대부분의 모델이 좌상단, 즉 실패를 실패로 잡아내는 재현율이 낮은 쪽에 몰려 있다. 판정 기준이 "에이전트가 뭐라고 말했나"에 치우쳐 있고 "환경 상태가 실제로 어떻게 바뀌었나"를 충분히 확인하지 않는다는 뜻이다.
+
+더 골치 아픈 건 난이도 조정 결과다. 사람과 VLM이 함께 헷갈린 진짜 어려운 오판 케이스만 284개 골라낸 OSReward-Hard 서브셋에서는, 최상위 프론티어 모델(Claude-Opus-4, GPT-5.5)조차 정확도가 69.7% 이하로 떨어진다. 그리고 이 수준의 신뢰도를 얻으려면 궤적 1,000개 평가에 $45~$100가 든다(Figure 2). RL 학습 중 수백만 번 호출해야 하는 상황에서는 감당이 안 되는 비용이다. 반대로 저렴한 오픈소스 VLM은 비용은 낮지만 정확도가 동전 던지기(50%) 수준까지 무너진다. 즉 "믿을 만하면서 싼" 선택지가 아예 없었다는 게 이 논문이 짚는 진짜 문제다.
+
+## 고친 방법: 벤치마크로 진단하고, SFT+GRPO로 편향을 도려낸다
+
+고친 순서는 두 단계다. 먼저 문제를 정확히 진단할 수 있는 벤치마크(OSReward)를 만들고, 그다음 그 진단을 바탕으로 오픈 리워드 모델(OS-Shepherd)을 학습시켜 편향을 직접 제거한다.
+
+| 구성 요소 | 목적 |
+|---|---|
+| OSReward (1,019 궤적, 4플랫폼) | 3인 인적 평가 기반 골드 라벨 벤치마크 |
+| OSReward-Hard (284 케이스) | 인간·VLM 모두 헷갈린 진짜 난제만 선별 |
+| OSReward-Multi | 이진 판정을 넘어 의도 부합도·경로 효율성까지 평가 |
+| OS-Shepherd-100K | 다수 VLM Judge의 고합의(high-agreement) 궤적-추론 코퍼스 |
+
+OS-Shepherd 모델(9B, 35B)은 이 코퍼스로 SFT를 먼저 시켜 기초 판단 능력을 잡은 뒤, RL 단계에서 GRPO로 관대함 편향만 집중 교정한다. 이 단계가 핵심인데, SFT 모델이 반복 샘플링해도 계속 놓치는 'False Success' 케이스를 하드 마이닝해서 그 케이스들에 대해서만 강하게 재학습시킨다. 보상 함수는 단순 이진 정확도가 아니라 형식 준수 여부까지 차등을 둔다.
+
+$$R(\hat{y}, y) = \begin{cases} 1.0 & \text{정답 일치 + 정해진 출력 형식 준수} \\ 0.1 & \text{형식은 맞지만 결론이 오답} \\ 0.0 & \text{형식 위반} \end{cases}$$
+
+여기에 $\beta=0.001$의 KL 페널티($\mathcal{L}_{\text{KL}} = \beta \cdot D_{\text{KL}}(\pi_\theta \| \pi_{\text{SFT}})$)를 걸어, 모델이 기본 시각/언어 이해력을 잃지 않으면서 딱 관대함 편향만 깎아내도록 제약한다. 이렇게 형식-정확도를 분리한 보상 설계는, 모델이 "정답은 맞았는데 형식이 무너져서" 벌점을 크게 받아 학습이 불안정해지는 걸 막기 위한 실용적 타협으로 보인다.
+
+## 결과: 30~60배 싸게 프론티어급 신뢰도
+
+*Figure 2 — 평가 비용(로그 스케일) 대비 OSReward-Hard 정확도. OS-Shepherd가 $1.36 수준에서 파레토 프런티어 상단에 위치한다.*
+
+OS-Shepherd-9B/35B-A3B는 궤적 1,000개 평가에 $1.36밖에 들지 않으면서도 파레토 프런티어 상단에 위치한다. $45~$100짜리 프론티어 모델 대비 30~60배 저렴하면서 판단 신뢰도는 근접한 수준까지 끌어올렸다는 뜻이다. RL 학습 루프에 실제로 투입 가능한 비용대로 신뢰할 만한 신호를 만들었다는 게 이 논문의 실질적 기여다.
+
+다만 한계도 명확히 남아 있다. OSReward-Hard에서의 정확도 자체는 여전히 100%와는 거리가 멀고, 논문도 이 서브셋을 "진단용 난제"로 명명하며 완전 해결이 아니라 "관대함 편향을 상당 부분 줄였다" 정도로 조심스럽게 서술한다. 즉 이 방법이 Leniency Bias를 근본적으로 없앤 게 아니라, 하드 마이닝된 케이스에 한해 통계적으로 잘 잡아낸 것에 가깝다고 봐야 한다.
+
+## 기존 개념과의 관계
+
+아직 볼트에 관련 개념 노트가 없다. 이 논문 자체가 이번 주 새로 발굴된 스레드다.
+
+## 🤖 AI의 생각
+
+이 부분은 사실 요약이 아니라 제 의견입니다. 이 논문은 taskcraft와 표면적으로는 완전히 다른 분야(컴퓨터 사용 에이전트 평가)를 다루지만, "에이전트의 자기 서사(narration)와 실제 환경 상태 변화가 어긋날 수 있다"는 문제의식이 taskcraft가 왜 latent world model을 굳이 매개로 두려는지에 대한 반증 사례처럼 읽힙니다. 만약 taskcraft의 embodiment-agnostic 표현이 결국 사람 시연 영상에서 뽑힌 "그럴듯한 서사"에 그치고 실제 world-state 전이를 충분히 강하게 grounding하지 못한다면, OSReward가 CUA에서 발견한 것과 똑같은 종류의 관대함 편향이 로봇 task representation 평가에서도 재현될 수 있다는 경고로 확장해볼 수 있을 것 같습니다. 즉 taskcraft의 10주 실험(BC/DAgger/PPO 비교)에서 성공/실패를 판정할 때, 정책의 출력/서사만 보지 말고 latent world model이 예측한 state transition이 실제 환경 변화와 얼마나 일치하는지를 별도로 검증하는 절차를 넣어볼 가치가 있다고 개인적으로는 생각합니다. 다소
