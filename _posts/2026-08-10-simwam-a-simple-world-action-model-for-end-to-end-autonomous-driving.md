@@ -33,7 +33,7 @@ SimWAM의 해법은 의외로 단순하다. 사전 학습된 비디오 전문가
 
 이렇게 학습을 마치고 나면 재미있는 일이 생긴다. 행동 전문가는 애초에 미래 비디오 토큰에 의존한 적이 없으므로, 배포 시점에 비디오 DiT와 비디오 VAE 디코더를 통째로 버려도 성능에 지장이 없다. 남는 건 경량 Action DiT뿐이고, 이게 관측을 받아 곧바로 궤적을 뽑아낸다. 두 전문가가 가중치를 공유하지 않고 attention이라는 단일 인터페이스로만 소통하기 때문에 비디오 백본을 Wan2.2나 Cosmos2.5로 자유롭게 바꾸거나 Action DiT 크기만 독립적으로 키우는 것도 가능하다.
 
-이미지 확인: /assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-2.png
+![Figure 2](/assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-2.png)
 
 여기에 더해 모방 학습 이후 단계로 Flow-GRPO를 적용한다. 원래 흐름 매칭은 확정적인 ODE 경로를 따르는데, 이걸 확률적 SDE로 바꾸면
 
@@ -43,7 +43,7 @@ $$dx_\tau = \left[ v_\theta(x_\tau, \tau) + \frac{\sigma_\tau^2}{2\tau} \left( x
 
 ## 결과: 성능은 유지하고 지연은 버린다
 
-/assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-1.png
+![Figure 1](/assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-1.png)
 
 Figure 1의 latency-PDMS 그래프가 이 논문의 핵심 주장을 그대로 보여준다. 비디오 생성을 추론 루프에서 들어낸 SimWAM은 500ms대의 낮은 latency를 유지하면서도 NAVSIM PDMS 91.5라는 최상위 수치를 기록한다. 기존 WAM 계열이 2000ms 이상을 쓰면서 도달하던 성능대를 4분의 1도 안 되는 지연으로 달성한 셈이다.
 
