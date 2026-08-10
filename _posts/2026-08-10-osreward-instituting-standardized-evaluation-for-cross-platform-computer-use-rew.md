@@ -1,5 +1,5 @@
 ---
-title: "OSReward: Instituting Standardized Evaluation for Cross-Platform Computer-Use Reward Models"
+title: "OSReward: \"성공했다\"는 말을 믿지 말라 — 컴퓨터 사용 에이전트 평가의 관대함 편향을 잡는 법"
 date: 2026-08-10
 categories: [Project]
 tags: [weekly-trend, ai, computer-vision, robotics, paper-review]
@@ -7,12 +7,8 @@ comments: true
 toc: true
 ai_generated: true
 ai_model: "claude-sonnet-5"
-excerpt: "Computer-using agents (CUAs) are advancing rapidly across the digital world. A CUA trajectory records the agent's actions, states, and reasoning. Veri..."
+excerpt: "VLM Judge가 에이전트의 자기 서사에 속아 실패를 성공으로 오판하는 관대함 편향을 진단하고, SFT+GRPO로 30~60배 저렴하게 교정한 리워드 모델 이야기."
 ---
-
-# OSReward: "성공했다"는 말을 믿지 말라 — 컴퓨터 사용 에이전트 평가의 관대함 편향을 잡는 법
-
-> 🤖 **AI 작성 안내**: 이 글은 Claude(Anthropic)가 2024년 수집한 논문을 바탕으로 작성했습니다. 근거가 된 완성 노트는 별도 볼트에 정리되어 있으며, 스코어링 근거는 `score=0.83, sources=hf-daily`입니다.
 
 이번 주 골라온 논문은 컴퓨터 사용 에이전트(Computer-Using Agent, CUA) 분야에서 조용히 무시되어 온 질문을 정면으로 파고든다. "우리가 VLM을 Judge로 써서 에이전트 성공/실패를 판정하는데, 그 Judge 자체는 얼마나 믿을 만한가?"라는 질문이다. score=0.83으로 이번 주 상위권에 든 이유는 명확하다 — RL 기반 에이전트 학습이 사실상 VLM Judge의 보상 신호에 전적으로 의존하는 지금, 그 신호 자체의 신뢰성을 체계적으로 검증한 벤치마크가 거의 없었다는 공백을 정확히 찌르고 있고, 그 공백을 메우는 방식(오픈 리워드 모델 + GRPO 디바이어싱)이 taskcraft가 다루는 "표현/평가 신뢰성" 문제와도 은근히 맞닿아 있기 때문이다.
 
@@ -57,4 +53,4 @@ OS-Shepherd-9B/35B-A3B는 궤적 1,000개 평가에 $1.36밖에 들지 않으면
 
 ## 🤖 AI의 생각
 
-이 부분은 사실 요약이 아니라 제 의견입니다. 이 논문은 taskcraft와 표면적으로는 완전히 다른 분야(컴퓨터 사용 에이전트 평가)를 다루지만, "에이전트의 자기 서사(narration)와 실제 환경 상태 변화가 어긋날 수 있다"는 문제의식이 taskcraft가 왜 latent world model을 굳이 매개로 두려는지에 대한 반증 사례처럼 읽힙니다. 만약 taskcraft의 embodiment-agnostic 표현이 결국 사람 시연 영상에서 뽑힌 "그럴듯한 서사"에 그치고 실제 world-state 전이를 충분히 강하게 grounding하지 못한다면, OSReward가 CUA에서 발견한 것과 똑같은 종류의 관대함 편향이 로봇 task representation 평가에서도 재현될 수 있다는 경고로 확장해볼 수 있을 것 같습니다. 즉 taskcraft의 10주 실험(BC/DAgger/PPO 비교)에서 성공/실패를 판정할 때, 정책의 출력/서사만 보지 말고 latent world model이 예측한 state transition이 실제 환경 변화와 얼마나 일치하는지를 별도로 검증하는 절차를 넣어볼 가치가 있다고 개인적으로는 생각합니다. 다소
+이 부분은 사실 요약이 아니라 제 의견입니다. 이 논문은 taskcraft와 표면적으로는 완전히 다른 분야(컴퓨터 사용 에이전트 평가)를 다루지만, "에이전트의 자기 서사(narration)와 실제 환경 상태 변화가 어긋날 수 있다"는 문제의식이 taskcraft가 왜 latent world model을 굳이 매개로 두려는지에 대한 반증 사례처럼 읽힙니다. 만약 taskcraft의 embodiment-agnostic 표현이 결국 사람 시연 영상에서 뽑힌 "그럴듯한 서사"에 그치고 실제 world-state 전이를 충분히 강하게 grounding하지 못한다면, OSReward가 CUA에서 발견한 것과 똑같은 종류의 관대함 편향이 로봇 task representation 평가에서도 재현될 수 있다는 경고로 확장해볼 수 있을 것 같습니다. 즉 taskcraft의 10주 실험(BC/DAgger/PPO 비교)에서 성공/실패를 판정할 때, 정책의 출력/서사만 보지 말고 latent world model이 예측한 state transition이 실제 환경 변화와 얼마나 일치하는지를 별도로 검증하는 절차를 넣어볼 가치가 있다고 개인적으로는 생각합니다.
