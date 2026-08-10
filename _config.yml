@@ -6,9 +6,20 @@ description: >-
 url: "https://akileox.github.io"
 baseurl: ""
 github_username: Akileox
+repository: "Akileox/Akileox.github.io"
 minimal_mistakes_skin: default
 search: true
 locale: "en-US"
+
+comments:
+  provider: "giscus"
+  giscus:
+    repo_id: "R_kgDOSRVe4w"
+    category_name: "Announcements"
+    category_id: "DIC_kwDOSRVe484DDCt6"
+    discussion_term: "pathname"
+    reactions_enabled: "1"
+    theme: "light"
 
 # Build settings
 markdown: kramdown
@@ -58,6 +69,8 @@ defaults:
       comments: false
       share: true
       related: true
+      toc: true
+      toc_sticky: true
   - scope:
       path: "_pages"
       type: pages
