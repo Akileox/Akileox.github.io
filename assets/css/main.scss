@@ -720,7 +720,7 @@ a, a:visited {
 }
 
 // ======================
-// In-content TOC (kramdown, §9)
+// In-content TOC (MM toc.html include, §9)
 // ======================
 
 .post-single__toc {
@@ -731,9 +731,23 @@ a, a:visited {
   border-radius: var(--radius-sm);
   font-size: 0.85rem;
 
-  ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
-  li { margin-bottom: 0.3rem; }
-  a { color: var(--text-muted); &:hover { color: var(--accent); } }
+  &-label {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .post-single__toc-list,
+  .post-single__toc-list ul {
+    margin: 0.4rem 0 0;
+    padding-left: 1.1rem;
+    list-style: none;
+  }
+  li { margin: 0.3rem 0; }
+  a { color: var(--text-muted); text-decoration: none; &:hover { color: var(--accent); } }
 }
 
 // ======================
