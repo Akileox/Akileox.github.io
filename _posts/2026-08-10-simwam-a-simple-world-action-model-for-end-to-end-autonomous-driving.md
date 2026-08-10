@@ -15,7 +15,7 @@ paper_url: "https://huggingface.co/papers/2608.07468"
 
 ## 이번 주에 이 논문을 고른 이유
 
-score 0.76, hf-daily 소스로 올라온 논문인데, 자율주행 World-Action Model이라는 특정 분야를 다루면서도 구조 자체는 훨씬 일반적인 질문 하나를 건드리고 있어서 눈에 띄었다. "무거운 생성 모델의 사전지식을 학습 때 흡수하고 추론 때는 버릴 수 있는가"라는 질문은 taskcraft가 latent world model과 embodiment별 정책을 분리하려는 시도와 뼈대가 겹친다. 그래서 이번 주 노트로 골랐다.
+score 0.76, hf-daily 소스로 올라온 논문인데, 자율주행 World-Action Model이라는 특정 분야를 다루면서도 구조 자체는 훨씬 일반적인 질문 하나를 건드리고 있어서 눈에 띄었습니다. "무거운 생성 모델의 사전지식을 학습 때 흡수하고 추론 때는 버릴 수 있는가"라는 질문은 taskcraft가 latent world model과 embodiment별 정책을 분리하려는 시도와 뼈대가 겹칩니다. 그래서 이번 주 노트로 골랐습니다.
 
 ## 문제 제기: Imagine-Then-Act의 대가
 
@@ -29,7 +29,7 @@ score 0.76, hf-daily 소스로 올라온 논문인데, 자율주행 World-Action
 
 ## 고친 방법: 학습 때만 붙이고 추론 때 떼어낸다
 
-SimWAM의 해법은 의외로 단순하다. 사전 학습된 비디오 전문가(Video DiT)와 경량 행동 전문가(Action DiT)를 흐름 매칭(flow matching)으로 공동 학습시키되, Isolated Attention Mask라는 장치를 둔다. 이 마스크는 행동 토큰이 현재 관측 표현만 참조하도록 하고, 미래 비디오 토큰은 절대 들여다보지 못하게 차단한다.
+SimWAM의 해법은 의외로 단순하다. 사전 학습된 비디오 전문가(Video DiT)와 경량 행동 전문가(Action DiT)를 흐름 매칭(flow matching)으로 공동 학습시키되, **Isolated Attention Mask**라는 장치를 둔다. 이 마스크는 행동 토큰이 현재 관측 표현만 참조하도록 하고, 미래 비디오 토큰은 절대 들여다보지 못하게 차단한다.
 
 이렇게 학습을 마치고 나면 재미있는 일이 생긴다. 행동 전문가는 애초에 미래 비디오 토큰에 의존한 적이 없으므로, 배포 시점에 비디오 DiT와 비디오 VAE 디코더를 통째로 버려도 성능에 지장이 없다. 남는 건 경량 Action DiT뿐이고, 이게 관측을 받아 곧바로 궤적을 뽑아낸다. 두 전문가가 가중치를 공유하지 않고 attention이라는 단일 인터페이스로만 소통하기 때문에 비디오 백본을 Wan2.2나 Cosmos2.5로 자유롭게 바꾸거나 Action DiT 크기만 독립적으로 키우는 것도 가능하다.
 
@@ -45,7 +45,7 @@ $$dx_\tau = \left[ v_\theta(x_\tau, \tau) + \frac{\sigma_\tau^2}{2\tau} \left( x
 
 ![Figure 1](/assets/images/posts/simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving/figure-1.png)
 
-Figure 1의 latency-PDMS 그래프가 이 논문의 핵심 주장을 그대로 보여준다. 비디오 생성을 추론 루프에서 들어낸 SimWAM은 500ms대의 낮은 latency를 유지하면서도 NAVSIM PDMS 91.5라는 최상위 수치를 기록한다. 기존 WAM 계열이 2000ms 이상을 쓰면서 도달하던 성능대를 4분의 1도 안 되는 지연으로 달성한 셈이다.
+Figure 1의 latency-PDMS 그래프가 이 논문의 핵심 주장을 그대로 보여준다. 비디오 생성을 추론 루프에서 들어낸 SimWAM은 **500ms대의 낮은 latency를 유지하면서도 NAVSIM PDMS 91.5라는 최상위 수치**를 기록한다. 기존 WAM 계열이 2000ms 이상을 쓰면서 도달하던 성능대를 4분의 1도 안 되는 지연으로 달성한 셈이다.
 
 다만 이 결과가 공짜로 나온 건 아니다. 학습 단계에서는 여전히 비디오 DiT를 통째로 함께 돌려야 하므로 학습 비용 자체가 줄어드는 건 아니고, 논문에서도 이 트레이드오프를 학습 비용을 늘려서 추론 비용을 낮추는 선택이라고 명확히 구분해서 다룬다. 또 Isolated Attention Mask가 정말로 지식 전이에 필요한 만큼의 정보만 통과시키는지, 아니면 더 세밀하게 조율할 여지가 있는지는 이 논문만으로는 판단하기 어렵다.
 
