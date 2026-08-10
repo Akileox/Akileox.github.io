@@ -280,10 +280,12 @@ a, a:visited {
   &--idea      { color: var(--accent); }
   &--project   { color: var(--text-muted); }
   &--mentoring { color: var(--text-muted); }
+  &--ai        { color: #2563eb; }
   &--default   { color: var(--text-muted); }
 }
 
 :root[data-theme="dark"] .cat-badge--daily { color: #fb7185; }
+:root[data-theme="dark"] .cat-badge--ai { color: #60a5fa; }
 
 // ======================
 // Home Page
@@ -552,9 +554,12 @@ a, a:visited {
 // ======================
 
 .post-single {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
+
+  &__main { min-width: 0; }
+  &__sidebar { display: none; }
 
   &__header {
     margin-bottom: 2rem;
@@ -676,6 +681,27 @@ a, a:visited {
 
     ul, ol { padding-left: 1.5rem; margin-bottom: 1.1rem; }
     li { margin-bottom: 0.3rem; }
+
+    // MM 기본 테이블 스타일이 --text/--bg 토큰을 안 써서 라이트/다크 전환 시 글자가 안 보이던 문제 수정
+    table {
+      display: block;
+      overflow-x: auto;
+      width: 100%;
+      margin: 1.25rem 0;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    thead { background: var(--bg-secondary); }
+    th, td {
+      padding: 0.6rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      text-align: left;
+    }
+    th { font-weight: 700; color: var(--text); }
+
+    // Figure 캡션(이탤릭 문단) — 실제 이미지가 없을 때도 최소한 시각적으로 구분되게
+    em:only-child { color: var(--text-muted); }
   }
 
   &__footer {
@@ -748,6 +774,39 @@ a, a:visited {
   }
   li { margin: 0.3rem 0; }
   a { color: var(--text-muted); text-decoration: none; &:hover { color: var(--accent); } }
+
+  // 좁은 화면: 본문 상단 박스형 TOC. 넓은 화면: 우측 사이드바로 전환(중복 방지로 서로 숨김).
+  &--sidebar { display: none; }
+}
+
+// ======================
+// 와이드 레이아웃 — 넓은 화면에서 본문 옆 여백을 sticky TOC로 활용
+// ======================
+
+@media (min-width: 1180px) {
+  .post-single--with-toc {
+    max-width: 1160px;
+    display: grid;
+    grid-template-columns: minmax(0, 760px) 320px;
+    gap: 3.5rem;
+    align-items: start;
+
+    .post-single__sidebar { display: block; }
+  }
+
+  .post-single__toc--inline { display: none; }
+
+  .post-single__toc--sidebar {
+    display: block;
+    position: sticky;
+    top: 90px; // sticky site-header(62px) 아래로 여유
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+    background: none;
+    border: none;
+    padding: 0 0 0 1.3rem;
+    border-left: 2px solid var(--border);
+  }
 }
 
 // ======================
@@ -788,6 +847,13 @@ a, a:visited {
     text-transform: uppercase;
     color: var(--text-muted);
     margin-bottom: 1rem;
+  }
+
+  iframe.giscus-frame {
+    width: 100% !important;
+    min-height: 150px;
+    border: none;
+    color-scheme: normal; // giscus iframe 내부가 브라우저 기본 다크 스킴을 상속해 깨지는 것 방지
   }
 }
 
