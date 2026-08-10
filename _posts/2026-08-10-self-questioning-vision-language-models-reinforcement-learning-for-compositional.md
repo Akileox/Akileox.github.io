@@ -15,7 +15,7 @@ paper_url: "https://www.semanticscholar.org/paper/3cc579286e51dc968d053bbf2731fc
 
 ## 이번 주에 이 논문을 고른 이유
 
-이번 주는 semantic-scholar 추천 경로에서 score 0.85로 올라온 논문을 골랐다. taskcraft가 다루는 embodiment 전이와 직접 맞닿는 주제는 아니지만, "사람이 일일이 단계를 가르치지 않아도 적절한 보상 설계만으로 합성적 구조가 창발하는가"라는 질문 자체가 taskcraft의 latent world model 가설과 결이 비슷해서 읽어볼 가치가 있다고 판단했다.
+이번 주는 semantic-scholar 추천 경로에서 score 0.85로 올라온 논문을 골랐습니다. taskcraft가 다루는 embodiment 전이와 직접 맞닿는 주제는 아니지만, "사람이 일일이 단계를 가르치지 않아도 적절한 보상 설계만으로 합성적 구조가 창발하는가"라는 질문 자체가 taskcraft의 latent world model 가설과 결이 비슷해서 읽어볼 가치가 있다고 판단했습니다.
 
 ## 문제 제기: 한 번에 답하려는 VLM
 
@@ -27,7 +27,7 @@ Vision-Language Model이 복잡한 시각 추론 문제에서 자주 틀리는 �
 
 ## 고친 방법: 보상만 주고 구조는 알아서 찾게 하기
 
-이 논문의 해법은 인간의 예시를 아예 주지 않는 것이다. 대신 모델이 최종 답변을 내놓기 전에 이미지에 접근해서 하위 질문과 하위 답변 쌍을 스스로 만들어 내도록 시스템 프롬프트만 구성하고, 그 구조를 실제로 쓰는지 여부와 정답을 맞혔는지 여부에만 보상을 건다.
+이 논문의 해법은 인간의 예시를 아예 주지 않는 것이다. 대신 모델이 최종 답변을 내놓기 전에 이미지에 접근해서 하위 질문과 하위 답변 쌍을 스스로 만들어 내도록 시스템 프롬프트만 구성하고, **그 구조를 실제로 쓰는지 여부와 정답을 맞혔는지 여부에만 보상을 건다**.
 
 ![Self-Questioning 프레임워크: 이미지와 질문에서 하위 질문-답변 쌍을 생성한 뒤 최종 답변을 내는 파이프라인](/assets/images/posts/self-questioning-vision-language-models-reinforcement-learning-for-compositional/figure-1.png)
 
@@ -51,7 +51,7 @@ $$\mathcal{L}(\theta) = -\mathbb{E} \left[ \min\left(r_t \hat{A}_t, \text{clip}(
 
 ![베이스 모델, Direct+GRPO, SQ+GRPO의 A-OKVQA·CLEVR 정확도 비교. A-OKVQA에서는 46.8%에서 52.2%로 상승하지만 CLEVR에서는 소폭 하락한다](/assets/images/posts/self-questioning-vision-language-models-reinforcement-learning-for-compositional/figure-2.png)
 
-다만 모든 도메인에서 이득만 있었던 건 아니다. A-OKVQA처럼 여러 단계의 추론이 필요한 실제 이미지 데이터셋에서는 강화학습 적용 시 정확도가 46.8%에서 52.2%까지 뛰었지만, CLEVR처럼 이미 단순한 합성 이미지 데이터셋에서는 하위 질문 생성을 강제했을 때 오히려 성능이 살짝 떨어졌다. 굳이 나눌 필요가 없는 문제를 억지로 쪼개다 보니 생기는 일종의 포맷 세금(format tax)인 셈이다. 즉 Self-Questioning은 만능이 아니라 문제의 복잡도가 어느 수준을 넘어설 때 선별적으로 켜야 이득이 나는 기법이라는 걸 이 결과가 보여준다.
+다만 모든 도메인에서 이득만 있었던 건 아니다. A-OKVQA처럼 여러 단계의 추론이 필요한 실제 이미지 데이터셋에서는 강화학습 적용 시 정확도가 46.8%에서 52.2%까지 뛰었지만, CLEVR처럼 이미 단순한 합성 이미지 데이터셋에서는 하위 질문 생성을 강제했을 때 오히려 성능이 살짝 떨어졌다. 굳이 나눌 필요가 없는 문제를 억지로 쪼개다 보니 생기는 일종의 **포맷 세금(format tax)**인 셈이다. 즉 Self-Questioning은 만능이 아니라 문제의 복잡도가 어느 수준을 넘어설 때 선별적으로 켜야 이득이 나는 기법이라는 걸 이 결과가 보여준다.
 
 ## taskcraft와의 접점
 
