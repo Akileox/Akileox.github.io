@@ -5,10 +5,7 @@ author_profile: false
 classes: wide
 ---
 
-<a href="/requests/" class="blog-request-fab" title="요청함 — 논문 분석·아이디어 요청" aria-label="요청함">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-  <span>요청함</span>
-</a>
+<div markdown="0"><a href="/requests/" class="blog-request-fab" title="요청함 — 논문 분석·아이디어 요청" aria-label="요청함"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>요청함</span></a></div>
 
 <div class="blog-wrap">
 
