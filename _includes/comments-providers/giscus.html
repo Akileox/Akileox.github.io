@@ -1,0 +1,48 @@
+<script>
+  'use strict';
+
+  (function () {
+    var commentContainer = document.querySelector('#giscus-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    // MM 기본 provider는 data-theme를 빌드 시점 정적값(site.comments.giscus.theme)으로 굳혀서 내보내
+    // 방문자의 실제 라이트/다크 상태를 반영 못 한다. postMessage로 사후 동기화해봤지만 giscus 내부에서
+    // 일부 영역(반응 바)만 갱신되고 일부(작성 박스)는 안 갱신되는 불일치가 실측 확인됨 — 대신 테마가
+    // 바뀔 때마다 iframe을 통째로 새로 마운트해서 항상 처음부터 올바른 테마로 뜨게 한다.
+    function currentGiscusTheme() {
+      return document.documentElement.dataset.theme === 'dark' ? 'dark_dimmed' : 'light';
+    }
+
+    function loadGiscus() {
+      commentContainer.innerHTML = '';
+
+      var script = document.createElement('script');
+
+      script.setAttribute('src', 'https://giscus.app/client.js');
+      script.setAttribute('data-repo', '{{ site.repository | downcase }}');
+      script.setAttribute('data-repo-id', '{{ site.comments.giscus.repo_id }}');
+      script.setAttribute('data-category', '{{ site.comments.giscus.category_name }}');
+      script.setAttribute('data-category-id', '{{ site.comments.giscus.category_id }}');
+      script.setAttribute('data-mapping', '{{ site.comments.giscus.discussion_term | default: "pathname" }}');
+      script.setAttribute('data-strict', '{{ site.comments.giscus.strict | default: 0 }}');
+      script.setAttribute('data-reactions-enabled', '{{ site.comments.giscus.reactions_enabled | default: 1 }}');
+      script.setAttribute('data-emit-metadata', '{{ site.comments.giscus.emit_metadata | default: 0 }}');
+      script.setAttribute('data-input-position', '{{ site.comments.giscus.input_position | default: "top" }}');
+      script.setAttribute('data-theme', currentGiscusTheme());
+      script.setAttribute('data-lang', '{{ site.comments.giscus.lang | default: "en" }}');
+      {% if site.comments.giscus.lazy %}
+      script.setAttribute('data-loading', 'lazy');
+      {% endif %}
+      script.setAttribute('crossorigin', 'anonymous');
+      script.setAttribute('async', '');
+
+      commentContainer.appendChild(script);
+    }
+
+    loadGiscus();
+    window.reloadGiscusTheme = loadGiscus;
+  })();
+</script>
