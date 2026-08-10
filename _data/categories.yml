@@ -1,0 +1,25 @@
+weekly-trend:
+  name: "주간 트렌드"
+  color_light: "#2a78d6"
+  color_dark: "#3987e5"
+  description: "매주 자동 수집·요약하는 AI/CV/Robotics 트렌드 논문 시리즈"
+ai:
+  name: "AI"
+  color_light: "#eb6834"
+  color_dark: "#d95926"
+  description: "인공지능 전반"
+computer-vision:
+  name: "Computer Vision"
+  color_light: "#1baf7a"
+  color_dark: "#199e70"
+  description: "이미지·영상 이해"
+robotics:
+  name: "Robotics"
+  color_light: "#eda100"
+  color_dark: "#c98500"
+  description: "로봇공학·제어"
+paper-review:
+  name: "논문 리뷰"
+  color_light: "#e87ba4"
+  color_dark: "#d55181"
+  description: "arXiv/HF Daily/Semantic Scholar에서 선별한 논문 분석"
