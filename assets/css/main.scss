@@ -1751,6 +1751,7 @@ a, a:visited {
   width: 100%;
   box-sizing: border-box;
   padding: 0.75rem 1rem;
+  font-family: inherit; // button/input은 브라우저 기본으로 폰트를 안 물려받아 별도 명시 필요
   font-size: 1.3rem;
   letter-spacing: 0.5em;
   text-align: center;
@@ -1768,6 +1769,7 @@ a, a:visited {
 
 .gate-btn {
   padding: 0.75rem 1rem;
+  font-family: inherit;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--accent-contrast);
