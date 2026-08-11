@@ -33,7 +33,7 @@ header:
 
 여기에 오버씽킹 펜얼티라는 안전장치를 하나 더 얹었다. 루브릭 보상을 더 얻으려고 추론 체인을 불필요하게 길게 늘리는 보상 해킹(reward hacking) 경향이 있어서, 추론 길이에 비례해 선형으로 감점을 주는 항을 최종 보상에 포함시켰다. 정답 정확도 보상, 동적 루브릭 보상, 오버씽킹 펜얼티를 합친 종합 보상으로 GRPO 최적화를 돌리는 것이 전체 그림이다.
 
-수식으로 보면 종합 보상은 $$R_i = R_i^{\text{out}} + \gamma R_i^{\text{rub}} + \delta R_i^{\text{over}}$$ 형태다. $$R_i^{\text{out}}$$은 정답 정확도와 사고 과정 양식을 평가하는 결과 보상, $$R_i^{\text{rub}} = \sum_{k \in \mathcal{K}} w_k b_{k,i}$$는 분산 필터링을 통과한 핵심 루브릭 집합 $$\mathcal{K}$$에 대한 가중합이고, $$R_i^{\text{over}} = 1 - \frac{|o_i|}{L}$$이 추론 길이 페널티다. $$\gamma$$와 $$\delta$$는 각 항의 비중을 조절하는 하이퍼파라미터인데, 결국 이 세 하이퍼파라미터의 균형을 어떻게 잡느냐에 시스템 안정성이 상당히 좌우된다.
+수식으로 보면 종합 보상은 $$R_i = R_i^{\text{out}} + \gamma R_i^{\text{rub}} + \delta R_i^{\text{over}}$$ 형태다. $$R_i^{\text{out}}$$은 정답 정확도와 사고 과정 양식을 평가하는 결과 보상, $$R_i^{\text{rub}} = \sum_{k \in \mathcal{K}} w_k b_{k,i}$$는 분산 필터링을 통과한 핵심 루브릭 집합 $$\mathcal{K}$$에 대한 가중합이고, $$R_i^{\text{over}} = 1 - \frac{\vert{}o_i\vert{}}{L}$$이 추론 길이 페널티다. $$\gamma$$와 $$\delta$$는 각 항의 비중을 조절하는 하이퍼파라미터인데, 결국 이 세 하이퍼파라미터의 균형을 어떻게 잡느냐에 시스템 안정성이 상당히 좌우된다.
 
 ![AUDIORUBRICS 프레임워크 전체 구조: 오디오 파형에서 초기 루브릭을 생성하고, 롤아웃을 판정해 새 루브릭을 발굴하고 분산 필터링과 재가중치화를 거쳐 GRPO 보상으로 피드백하는 순환 구조](/assets/images/posts/reinforcement-learning-with-evolving-rubrics-as-rewards-for-audio-reasoning/figure-1.png)
 
