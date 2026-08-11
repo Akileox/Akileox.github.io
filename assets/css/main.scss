@@ -11,6 +11,7 @@
 // ======================
 
 :root {
+  color-scheme: light; // 미지정 시 체크박스 등 브라우저 네이티브 폼 컨트롤이 항상 라이트 크롬으로 그려짐(2026-08-11 실측 — 다크모드에서 체크박스가 흰 사각형으로 보이던 버그)
   --accent:       #3d6b52;
   --accent-light: #f0f5f2;
   --text:         #1c1917;
@@ -28,6 +29,7 @@
 }
 
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --accent:       #4ade80;
   --accent-light: #16261d;
   --text:         #f2f2f0;
@@ -1745,6 +1747,7 @@ a, a:visited {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+  background: transparent; // MM 테마 기본 form 스타일이 밝은 배경을 깔아둬서 다크모드에서 흰 박스로 보이던 버그(2026-08-11 실측) 방지
 }
 
 .gate-input {
