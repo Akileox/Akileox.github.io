@@ -11,7 +11,7 @@ classes: wide
 
   <div class="tc-hero">
     <p class="tc-hero__eyebrow">Research Note · In Progress</p>
-    <h1 class="tc-hero__title">사람이 하는 걸 보고 배운 로봇은, 왜 다른 로봇에게 그걸 못 알려줄까</h1>
+    <h1 class="tc-hero__title" style="font-size:clamp(1.4rem, 2.6vw, 2rem);">형태가 다르면, 배운 것도 다시 배워야 할까?</h1>
     <p class="tc-hero__dek">
       로봇이나 게임 에이전트가 사람 시연 영상에서 뽑은 표현을 자기 신체 구조(embodiment, 로봇마다 다른 관절·조작
       방식)에 바로 연결하면, 그 표현은 딱 그 로봇에게만 쓸모 있게 된다. Latent world model(관측을 압축해
