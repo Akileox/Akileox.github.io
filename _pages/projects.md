@@ -46,7 +46,7 @@ classes: wide
           <span class="project-row__tag">LMS</span>
         </div>
         <div class="project-row__links">
-          <a href="https://teamdj.vercel.app/" target="_blank">Live →</a>
+          <a href="https://www.dongdongmath.com" target="_blank">Live →</a>
         </div>
       </div>
     </div>

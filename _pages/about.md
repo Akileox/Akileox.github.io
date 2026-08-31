@@ -113,14 +113,14 @@ classes: wide
     <span class="timeline-period">2026.05 ~</span>
     <div class="timeline-content">
       <strong>TeamDJ</strong>
-      <span>학원용 LMS 기획·개발 (AI 1차 응답 + 조교 에스컬레이션, 자동 리포트/복습영상)</span>
+      <span>학원용 LMS 기획·개발 (AI 1차 응답, 자동 리포트/복습영상 기능 구현)</span>
     </div>
   </div>
   <div class="timeline-item">
     <span class="timeline-period">2025</span>
     <div class="timeline-content">
       <strong>Google Gemini Ambassador</strong>
-      <span>K-BioX · Bio-MBTI web app · 1st Activity Team</span>
+      <span>K-BioX · 1st Activity Team</span>
     </div>
   </div>
   <div class="timeline-item">
@@ -205,7 +205,7 @@ classes: wide
     <span class="timeline-period">In Progress</span>
     <div class="timeline-content">
       <strong>TeamDJ</strong>
-      <span>학원용 LMS 웹사이트 · <a href="https://teamdj.vercel.app/" target="_blank">teamdj.vercel.app</a></span>
+      <span>학원용 LMS 웹사이트 · <a href="https://www.dongdongmath.com" target="_blank">dongdongmath.com</a></span>
     </div>
   </div>
 
