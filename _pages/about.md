@@ -98,7 +98,6 @@ classes: wide
     <a href="https://github.com/Akileox" target="_blank">GitHub</a>
     <a href="https://instagram.com/s.mini.lee" target="_blank">Instagram</a>
     <a href="mailto:akileo@korea.ac.kr">Email</a>
-    <!-- PDF 파일 준비 후: assets/cv/cv_seungmin_lee.pdf 에 업로드 -->
     <a href="/assets/cv/cv_seungmin_lee.pdf" class="cv-btn" download>CV →</a>
   </div>
 
