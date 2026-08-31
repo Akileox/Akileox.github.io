@@ -1,6 +1,6 @@
 ---
 title: "[이론] 3. MuZero — 복원 없이 가치만 맞힌다"
-date: 2026-08-18
+date: 2026-07-26
 categories: [Project]
 tags: [taskcraft-theory, world-model, muzero, reinforcement-learning, robotics]
 excerpt: "MuZero가 관측 복원 손실을 아예 목적함수에서 뺀 구조(representation/dynamics/prediction 세 함수)를 수식으로 짚고, 이게 1편의 minimality 문제에 대한 첫 반례 후보인 이유와 남은 한계를 taskcraft 가설과 연결합니다."
@@ -67,6 +67,54 @@ $$
 <figcaption><strong>이 그림이 보여주는 것.</strong> 관측이 representation function을 거쳐 s_0가 되고, dynamics function이 행동을 받아 다음 latent와 보상을 예측합니다. prediction function(그림에는 생략, s_1 이후 반복)이 정책과 가치를 뽑습니다. <strong>진짜 쟁점은 아래 강조 상자</strong>입니다. Dreamer(2편)와 달리 이 체인 어디에도 관측을 복원하는 손실이 없습니다.</figcaption>
 </figure>
 
+## 시리즈 지도
+
+<figure class="tp-fig">
+<div class="tp-roadmap">
+  <div class="tp-roadmap__stage tp-roadmap__stage--prereq">
+    <div class="tp-roadmap__num">선수</div>
+    <div class="tp-roadmap__label">이미 아는 것</div>
+    <div class="tp-roadmap__items">DATA403 RL 기초<br>(MDP·정책·가치함수)<br>VLA 개괄</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">00</div>
+    <div class="tp-roadmap__label">예비</div>
+    <div class="tp-roadmap__items">0. 인코더/디코더와 VAE</div>
+  </div>
+  <div class="tp-roadmap__stage tp-roadmap__stage--current">
+    <div class="tp-roadmap__num">01</div>
+    <div class="tp-roadmap__label">기초</div>
+    <div class="tp-roadmap__items">1. World Model<br>2. Dreamer 계열<br>3. MuZero</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">02</div>
+    <div class="tp-roadmap__label">잠재 행동</div>
+    <div class="tp-roadmap__items">4. Genie</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">03</div>
+    <div class="tp-roadmap__label">사람 → 로봇 표현</div>
+    <div class="tp-roadmap__items">5. R3M<br>6. VIP</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">04</div>
+    <div class="tp-roadmap__label">실전 적용 / 대안</div>
+    <div class="tp-roadmap__items">7. DreamGen<br>8. GR-1→GR-2<br>9. Genie Envisioner<br>10. NerveNet<br>11. MetaMorph</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">05</div>
+    <div class="tp-roadmap__label">종합 / 실행</div>
+    <div class="tp-roadmap__items">12. taskcraft 가설 종합<br>13. 파일럿 설계</div>
+  </div>
+  <div class="tp-roadmap__stage tp-roadmap__stage--dest">
+    <div class="tp-roadmap__num">→</div>
+    <div class="tp-roadmap__label">taskcraft 연구</div>
+    <div class="tp-roadmap__items">사람 시연 + VIP 진행도 신호<br>→ Minecraft 이종 embodiment 이식</div>
+  </div>
+</div>
+<figcaption><strong>이 그림이 보여주는 것.</strong> 1~13편이 정의 → 학습법 → 잠재 행동 추출 → 사람 표현 이식 → 실전/대안 → 종합·실행 순서로 이어지다가, 오른쪽 끝에서 taskcraft 실제 연구로 빠져나갑니다. 강조된 01단계가 지금 이 글입니다.</figcaption>
+</figure>
+
 ## 이 개념이 풀고자 했던 문제
 
 Dreamer 계열은 왜 복원 손실을 유지할까요. 복원이 없으면 \\( s_t \\)가 애초에 무엇을 표현해야 하는지 알려주는 학습 신호가 약해질 수 있다는 우려 때문입니다. MuZero는 이 우려에 다른 답을 냅니다. 바둑·체스·쇼기·Atari처럼 "정확한 픽셀 재현"이 전혀 목표가 아닌 태스크에서는, 복원이 오히려 필요 없는 디테일까지 맞히도록 강제하는 낭비라는 것입니다. representation·dynamics·prediction 세 함수를 policy·value·reward 예측 손실만으로 end-to-end 학습합니다.
@@ -111,4 +159,29 @@ $$
 .post-series-note { color: var(--text-muted); font-size: 0.9rem; }
 .tp-fig svg { width: 100%; height: auto; display: block; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; }
 .tp-fig figcaption { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.6rem; line-height: 1.6; }
+.tp-roadmap {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  margin: 0.5rem 0;
+  overflow-x: auto;
+}
+.tp-roadmap__stage {
+  border: 1px solid var(--border);
+  padding: 0.9rem 0.85rem;
+  min-width: 150px;
+  background: var(--bg-secondary);
+}
+.tp-roadmap__stage + .tp-roadmap__stage { border-left: none; }
+.tp-roadmap__stage--current { background: var(--accent-light); border-color: var(--accent); }
+.tp-roadmap__stage--prereq { border-style: dashed; opacity: 0.75; }
+.tp-roadmap__stage--dest { border-style: dashed; border-color: var(--accent); }
+.tp-roadmap__stage--dest .tp-roadmap__num, .tp-roadmap__stage--dest .tp-roadmap__label { color: var(--accent); }
+.tp-roadmap__num { font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+.tp-roadmap__stage--current .tp-roadmap__num { color: var(--accent); font-weight: 700; }
+.tp-roadmap__label { font-size: 0.8rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.5rem; }
+.tp-roadmap__items { font-size: 0.72rem; color: var(--text-muted); line-height: 1.7; }
+@media (max-width: 760px) {
+  .tp-roadmap { grid-template-columns: 1fr; }
+  .tp-roadmap__stage + .tp-roadmap__stage { border-left: 1px solid var(--border); border-top: none; }
+}
 </style>

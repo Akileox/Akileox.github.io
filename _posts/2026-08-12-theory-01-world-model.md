@@ -1,12 +1,12 @@
 ---
 title: "[이론] 1. World Model이란 무엇인가"
-date: 2026-08-12
+date: 2026-07-18
 categories: [Project]
 tags: [taskcraft-theory, world-model, reinforcement-learning, robotics]
 excerpt: "관측을 압축한 상태 위에서 다음 상태를 예측하는 world model의 정의를 Dyna의 model-based RL부터 Ha & Schmidhuber(2018)의 MDN-RNN, taskcraft 가설과의 정보이론적 연결까지 수식으로 짚습니다."
 ---
 
-<p class="post-series-note" markdown="1"><em>taskcraft <a href="/taskcraft/">연구 노트</a>를 뒷받침하는 [이론] 시리즈 1편입니다. DATA403(학부 강화학습) 수준의 배경(정책, 가치함수, MDP)은 전제하고, world model에서 새로 추가되는 개념만 다룹니다.</em></p>
+<p class="post-series-note" markdown="1"><em>taskcraft <a href="/taskcraft/">연구 노트</a>를 뒷받침하는 [이론] 시리즈 1편입니다. DATA403(학부 강화학습) 수준의 배경(정책, 가치함수, MDP)은 전제하고, world model에서 새로 추가되는 개념만 다룹니다. 인코더/디코더, VAE의 KL 정규화가 낯설다면 <a href="/project/theory-00-vae/">0편</a>을 먼저 읽는 걸 권합니다.</em></p>
 
 ## 정의
 
@@ -24,6 +24,16 @@ $$
 
 <figure class="tp-fig">
 <div class="tp-roadmap">
+  <div class="tp-roadmap__stage tp-roadmap__stage--prereq">
+    <div class="tp-roadmap__num">선수</div>
+    <div class="tp-roadmap__label">이미 아는 것</div>
+    <div class="tp-roadmap__items">DATA403 RL 기초<br>(MDP·정책·가치함수)<br>VLA 개괄</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">00</div>
+    <div class="tp-roadmap__label">예비</div>
+    <div class="tp-roadmap__items">0. 인코더/디코더와 VAE</div>
+  </div>
   <div class="tp-roadmap__stage tp-roadmap__stage--current">
     <div class="tp-roadmap__num">01</div>
     <div class="tp-roadmap__label">기초</div>
@@ -49,8 +59,13 @@ $$
     <div class="tp-roadmap__label">종합 / 실행</div>
     <div class="tp-roadmap__items">12. taskcraft 가설 종합<br>13. 파일럿 설계</div>
   </div>
+  <div class="tp-roadmap__stage tp-roadmap__stage--dest">
+    <div class="tp-roadmap__num">→</div>
+    <div class="tp-roadmap__label">taskcraft 연구</div>
+    <div class="tp-roadmap__items">사람 시연 + VIP 진행도 신호<br>→ Minecraft 이종 embodiment 이식</div>
+  </div>
 </div>
-<figcaption><strong>이 그림이 보여주는 것.</strong> 13편이 개별 논문 나열이 아니라 정의 → 학습법 → 잠재 행동 추출 → 사람 표현 이식 → 실전/대안 → 종합·실행이라는 하나의 논증 순서로 이어진다는 것입니다. 강조된 1단계가 지금 이 글입니다.</figcaption>
+<figcaption><strong>이 그림이 보여주는 것.</strong> 왼쪽 두 칸(선수지식, 0편)이 이 시리즈가 서 있는 바닥입니다. 1~13편이 개별 논문 나열이 아니라 정의 → 학습법 → 잠재 행동 추출 → 사람 표현 이식 → 실전/대안 → 종합·실행이라는 하나의 논증 순서로 이어지다가, 오른쪽 끝에서 taskcraft 실제 연구로 빠져나갑니다. 강조된 01단계가 지금 이 글입니다.</figcaption>
 </figure>
 
 ## 이 개념이 풀고자 했던 문제
@@ -157,7 +172,7 @@ $$
 .post-series-note { color: var(--text-muted); font-size: 0.9rem; }
 .tp-roadmap {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   margin: 0.5rem 0;
   overflow-x: auto;
 }
@@ -169,6 +184,9 @@ $$
 }
 .tp-roadmap__stage + .tp-roadmap__stage { border-left: none; }
 .tp-roadmap__stage--current { background: var(--accent-light); border-color: var(--accent); }
+.tp-roadmap__stage--prereq { border-style: dashed; opacity: 0.75; }
+.tp-roadmap__stage--dest { border-style: dashed; border-color: var(--accent); }
+.tp-roadmap__stage--dest .tp-roadmap__num, .tp-roadmap__stage--dest .tp-roadmap__label { color: var(--accent); }
 .tp-roadmap__num { font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.4rem; }
 .tp-roadmap__stage--current .tp-roadmap__num { color: var(--accent); font-weight: 700; }
 .tp-roadmap__label { font-size: 0.8rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.5rem; }

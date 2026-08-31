@@ -1,6 +1,6 @@
 ---
 title: "[이론] 2. Dreamer 계열 — Latent에서 상상으로 배운다"
-date: 2026-08-15
+date: 2026-07-22
 categories: [Project]
 tags: [taskcraft-theory, world-model, dreamer, reinforcement-learning, robotics]
 excerpt: "PlaNet의 RSSM부터 DreamerV2의 이산 latent, DreamerV3의 symlog까지, 잠재 공간 안에서 상상으로 정책을 학습하는 구조를 수식으로 짚고 actor가 왜 embodiment-specific 디코더인지 taskcraft 가설과 연결합니다."
@@ -25,6 +25,54 @@ z_t \sim q_\phi(z_t \mid h_t, o_t) \qquad \text{(posterior, 실제 관측까지 
 $$
 
 \\( h_t \\)가 장기 기억(RNN)을 맡고, \\( z_t \\)가 그 시점의 불확실성을 담습니다. 1편의 \\( z_t \\)는 사실 이 \\( (h_t, z_t) \\) 쌍을 뭉뚱그린 표기였습니다.
+
+## 시리즈 지도
+
+<figure class="tp-fig">
+<div class="tp-roadmap">
+  <div class="tp-roadmap__stage tp-roadmap__stage--prereq">
+    <div class="tp-roadmap__num">선수</div>
+    <div class="tp-roadmap__label">이미 아는 것</div>
+    <div class="tp-roadmap__items">DATA403 RL 기초<br>(MDP·정책·가치함수)<br>VLA 개괄</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">00</div>
+    <div class="tp-roadmap__label">예비</div>
+    <div class="tp-roadmap__items">0. 인코더/디코더와 VAE</div>
+  </div>
+  <div class="tp-roadmap__stage tp-roadmap__stage--current">
+    <div class="tp-roadmap__num">01</div>
+    <div class="tp-roadmap__label">기초</div>
+    <div class="tp-roadmap__items">1. World Model<br>2. Dreamer 계열<br>3. MuZero</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">02</div>
+    <div class="tp-roadmap__label">잠재 행동</div>
+    <div class="tp-roadmap__items">4. Genie</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">03</div>
+    <div class="tp-roadmap__label">사람 → 로봇 표현</div>
+    <div class="tp-roadmap__items">5. R3M<br>6. VIP</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">04</div>
+    <div class="tp-roadmap__label">실전 적용 / 대안</div>
+    <div class="tp-roadmap__items">7. DreamGen<br>8. GR-1→GR-2<br>9. Genie Envisioner<br>10. NerveNet<br>11. MetaMorph</div>
+  </div>
+  <div class="tp-roadmap__stage">
+    <div class="tp-roadmap__num">05</div>
+    <div class="tp-roadmap__label">종합 / 실행</div>
+    <div class="tp-roadmap__items">12. taskcraft 가설 종합<br>13. 파일럿 설계</div>
+  </div>
+  <div class="tp-roadmap__stage tp-roadmap__stage--dest">
+    <div class="tp-roadmap__num">→</div>
+    <div class="tp-roadmap__label">taskcraft 연구</div>
+    <div class="tp-roadmap__items">사람 시연 + VIP 진행도 신호<br>→ Minecraft 이종 embodiment 이식</div>
+  </div>
+</div>
+<figcaption><strong>이 그림이 보여주는 것.</strong> 1~13편이 정의 → 학습법 → 잠재 행동 추출 → 사람 표현 이식 → 실전/대안 → 종합·실행 순서로 이어지다가, 오른쪽 끝에서 taskcraft 실제 연구로 빠져나갑니다. 강조된 01단계가 지금 이 글입니다.</figcaption>
+</figure>
 
 ## 이 개념이 풀고자 했던 문제
 
@@ -95,13 +143,15 @@ $$
 
 세 항 각각의 역할입니다. 첫 항(복원)은 \\( (h_t,z_t) \\)가 관측을 설명할 수 있게, 둘째 항(보상)은 태스크에 필요한 정보를 담게, 셋째 항(KL)은 prior가 posterior를 따라가게 만듭니다.
 
-DreamerV2는 \\( z_t \\)를 연속 가우시안 대신 이산 범주형(보통 32개 범주 × 32개 클래스)으로 바꿉니다. 샘플링이 미분 불가능해지는 문제는 straight-through 추정기(순전파는 실제 샘플, 역전파는 연속 완화 분포의 그래디언트를 그대로 흘려보냄)로 우회합니다. 또한 posterior가 너무 빨리 collapse하는 것을 막기 위해 KL balancing을 씁니다.
+DreamerV2는 \\( z_t \\)를 연속 가우시안 대신 이산 범주형(보통 32개 범주 × 32개 클래스)으로 바꿉니다. 이산 변수는 샘플링 연산 자체가 미분 불가능합니다. 카테고리 하나를 뽑는 연산에는 그래디언트가 흐를 경로가 없어서, 0편의 재파라미터화 트릭이 그대로는 안 통합니다. **straight-through 추정기**로 우회합니다. 순전파 때는 실제 이산 샘플(one-hot)을 그대로 쓰고, 역전파 때는 마치 연속 완화(softmax 등)를 미분한 것처럼 그래디언트를 통과시킵니다. 편향(bias)이 있는 근사지만 실전에서 잘 작동한다고 알려져 있습니다.
+
+또한 posterior가 너무 빨리 collapse하는 것을 막기 위해 KL balancing을 씁니다. KL 항을 \\( D_{KL}(q\Vert p) \\) 그대로 두면, \\( q \\)와 \\( p \\)를 동시에 최적화할 때 posterior \\( q \\)가 자기 자신을 prior \\( p \\) 쪽으로 붕괴시켜(정보를 버려서) KL을 손쉽게 줄여버리는 지름길이 생깁니다. 이러면 \\( z_t \\)가 관측 정보를 거의 안 담게 돼서 복원·보상 예측이 나빠집니다.
 
 $$
 L_{KL} = \alpha\, D_{KL}\big(\mathrm{sg}[q]\,\Vert\,p\big) + (1-\alpha)\, D_{KL}\big(q\,\Vert\,\mathrm{sg}[p]\big), \qquad \alpha \approx 0.8
 $$
 
-\\( \mathrm{sg} \\)는 stop-gradient. prior 쪽 항의 가중치를 더 크게 줘서, prior가 posterior를 따라잡는 속도를 posterior가 prior에 맞춰 붕괴하는 속도보다 빠르게 만듭니다.
+\\( \mathrm{sg} \\)는 stop-gradient. prior 쪽 항의 가중치 \\( \alpha \\)를 더 크게 줘서, prior가 posterior를 "따라가는" 속도를 posterior가 붕괴하는 속도보다 빠르게 만드는 게 핵심입니다. posterior가 먼저 무너지기 전에 prior가 따라잡도록 속도 차를 주는 셈입니다.
 
 DreamerV3는 보상·가치 스케일이 도메인마다 천차만별인 문제를 symlog 변환으로 정규화합니다.
 
@@ -149,4 +199,29 @@ actor \\( \pi_\phi(a_t\mid h_t,z_t) \\)는 이 \\( V_\lambda \\)를 최대화하
 .post-series-note { color: var(--text-muted); font-size: 0.9rem; }
 .tp-fig svg { width: 100%; height: auto; display: block; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 10px; }
 .tp-fig figcaption { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.6rem; line-height: 1.6; }
+.tp-roadmap {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  margin: 0.5rem 0;
+  overflow-x: auto;
+}
+.tp-roadmap__stage {
+  border: 1px solid var(--border);
+  padding: 0.9rem 0.85rem;
+  min-width: 150px;
+  background: var(--bg-secondary);
+}
+.tp-roadmap__stage + .tp-roadmap__stage { border-left: none; }
+.tp-roadmap__stage--current { background: var(--accent-light); border-color: var(--accent); }
+.tp-roadmap__stage--prereq { border-style: dashed; opacity: 0.75; }
+.tp-roadmap__stage--dest { border-style: dashed; border-color: var(--accent); }
+.tp-roadmap__stage--dest .tp-roadmap__num, .tp-roadmap__stage--dest .tp-roadmap__label { color: var(--accent); }
+.tp-roadmap__num { font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+.tp-roadmap__stage--current .tp-roadmap__num { color: var(--accent); font-weight: 700; }
+.tp-roadmap__label { font-size: 0.8rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.5rem; }
+.tp-roadmap__items { font-size: 0.72rem; color: var(--text-muted); line-height: 1.7; }
+@media (max-width: 760px) {
+  .tp-roadmap { grid-template-columns: 1fr; }
+  .tp-roadmap__stage + .tp-roadmap__stage { border-left: 1px solid var(--border); border-top: none; }
+}
 </style>
