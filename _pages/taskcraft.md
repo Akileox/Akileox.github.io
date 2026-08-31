@@ -6,7 +6,8 @@ author_profile: false
 classes: wide
 ---
 
-<div class="tc-wrap">
+<div class="tc-wrap tc-wrap--with-toc">
+<div class="tc-main">
 
   <div class="tc-hero">
     <p class="tc-hero__eyebrow">Research Note · In Progress</p>
@@ -228,7 +229,7 @@ classes: wide
     </div>
   </div>
 
-  <div class="tc-section">
+  <div class="tc-section" id="contact">
     <p class="section-label"><span class="section-label__num">09</span> 문의</p>
     <div class="tc-feedback">
       <p class="muted" style="margin:0;">미처 다루지 못한 선행연구나 의견이 있으시면 아래 이메일로 문의 부탁드립니다.</p>
@@ -236,4 +237,23 @@ classes: wide
     </div>
   </div>
 
-</div>
+</div><!-- /.tc-main -->
+
+<aside class="tc-sidebar">
+  <nav class="post-single__toc post-single__toc--sidebar">
+    <p class="post-single__toc-label">Contents</p>
+    <ul class="post-single__toc-list">
+      <li><a href="#q">01. 최종 질문</a></li>
+      <li><a href="#why">02. 왜 지금 이 문제인가</a></li>
+      <li><a href="#diff">03. 기존 연구와 차이</a></li>
+      <li><a href="#plan">04. 검증 계획</a></li>
+      <li><a href="#open">05. 아직 답하지 못한 질문</a></li>
+      <li><a href="#faq">06. 예상되는 반론</a></li>
+      <li><a href="#status">07. 지금 상태</a></li>
+      <li><a href="#refs">08. 참고문헌</a></li>
+      <li><a href="#contact">09. 문의</a></li>
+    </ul>
+  </nav>
+</aside>
+
+</div><!-- /.tc-wrap -->

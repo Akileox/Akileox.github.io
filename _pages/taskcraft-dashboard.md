@@ -6,7 +6,8 @@ author_profile: false
 classes: wide
 ---
 
-<div class="tc-wrap">
+<div class="tc-wrap tc-wrap--with-toc">
+<div class="tc-main">
 
   <div class="tc-hero">
     <p class="tc-hero__eyebrow">Research Note · Dashboard</p>
@@ -66,4 +67,17 @@ classes: wide
     </div>
   </div>
 
-</div>
+</div><!-- /.tc-main -->
+
+<aside class="tc-sidebar">
+  <nav class="post-single__toc post-single__toc--sidebar">
+    <p class="post-single__toc-label">Contents</p>
+    <ul class="post-single__toc-list">
+      <li><a href="#milestones">01. 마일스톤</a></li>
+      <li><a href="#log">02. 실험 아카이브</a></li>
+      <li><a href="#links">03. 원본 자료</a></li>
+    </ul>
+  </nav>
+</aside>
+
+</div><!-- /.tc-wrap -->
