@@ -91,7 +91,7 @@ classes: wide
 
 <div class="about-prose">
 
-  <h1 class="about-name">SeungMin Lee</h1>
+  <h1 class="about-name">Seungmin Lee (이승민)</h1>
   <p class="about-role">Undergraduate · Computer Science, Korea University · Akileo</p>
 
   <div class="about-links">
@@ -113,7 +113,7 @@ classes: wide
     <span class="timeline-period">2026.05 ~</span>
     <div class="timeline-content">
       <strong>TeamDJ</strong>
-      <span>학원용 LMS 웹사이트 기획 및 개발 진행 중</span>
+      <span>학원용 LMS 기획·개발 (AI 1차 응답 + 조교 에스컬레이션, 자동 리포트/복습영상)</span>
     </div>
   </div>
   <div class="timeline-item">
@@ -180,15 +180,20 @@ classes: wide
     </div>
     <div class="academic-row">
       <span class="academic-row__label">특이사항</span>
-      <span class="academic-row__value">강화학습(DATA403): 4학년 권장과목 선이수 · 기계공학부 이중전공 예정</span>
+      <span class="academic-row__value">전공 평점 4.5 / 4.5 (전공 전 과목 A+)</span>
     </div>
   </div>
-  <!-- 성적표 PDF 준비 후: assets/cv/transcript_seungmin_lee.pdf 에 업로드 -->
-  <a href="/assets/cv/transcript_seungmin_lee.pdf" class="cv-btn" download style="display:inline-block;padding:0.3rem 0.85rem;border-radius:4px;text-decoration:none;font-size:0.78rem;">성적표 PDF →</a>
 
   <hr class="about-divider">
   <p class="about-section-label">Projects</p>
 
+  <div class="timeline-item">
+    <span class="timeline-period">2026.07 ~</span>
+    <div class="timeline-content">
+      <strong><a href="/taskcraft/">taskcraft</a></strong>
+      <span>Morphology-Agnostic Imitation from Human Video via Latent World Models</span>
+    </div>
+  </div>
   <div class="timeline-item">
     <span class="timeline-period">2026</span>
     <div class="timeline-content">

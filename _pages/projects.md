@@ -18,7 +18,7 @@ classes: wide
       <div>
         <h3 class="project-row__title">taskcraft: Embodiment-Agnostic Task Representation</h3>
         <p class="project-row__desc">
-          사람 시연 영상에서 신체 구조에 종속되지 않는 task representation을 latent world model로 추출해, 형태가 다른 에이전트에 이식할 수 있는가에 대한 연구. Minecraft(MineRL)를 첫 파일럿으로 BC/DAgger/PPO를 비교하며 검증한다.
+          사람 시연 영상에서 신체 구조에 종속되지 않는 task representation을 latent world model로 추출해, 형태가 다른 에이전트에 이식할 수 있는가에 대한 연구. Minecraft(MineRL) 안에서 서로 다른 embodiment 간 전이를 검증하는 파일럿을 설계 중이다.
         </p>
         <div class="project-row__tags">
           <span class="project-row__tag">World Model</span>
@@ -85,40 +85,6 @@ classes: wide
           <span class="project-row__tag">RISC-V</span>
           <span class="project-row__tag">Verilog</span>
           <span class="project-row__tag">FSM</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- CartPole DQN -->
-    <div class="project-row">
-      <div class="project-row__status"><span class="status-badge status-badge--done">Completed</span></div>
-      <div>
-        <h3 class="project-row__title">CartPole: DQN Implementation</h3>
-        <p class="project-row__desc">
-          Implemented Deep Q-Network (DQN) from scratch in Python to solve the CartPole-v1 environment. Covered experience replay, target networks, and epsilon-greedy exploration.
-        </p>
-        <div class="project-row__tags">
-          <span class="project-row__tag">Python</span>
-          <span class="project-row__tag">DQN</span>
-          <span class="project-row__tag">OpenAI Gym</span>
-          <span class="project-row__tag">Reinforcement Learning</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- LunarLander PG -->
-    <div class="project-row">
-      <div class="project-row__status"><span class="status-badge status-badge--done">Completed</span></div>
-      <div>
-        <h3 class="project-row__title">LunarLander: Policy Gradient</h3>
-        <p class="project-row__desc">
-          Implemented REINFORCE (Policy Gradient) algorithm to solve the LunarLander-v2 environment. Explored reward shaping and baseline subtraction for variance reduction.
-        </p>
-        <div class="project-row__tags">
-          <span class="project-row__tag">Python</span>
-          <span class="project-row__tag">Policy Gradient</span>
-          <span class="project-row__tag">OpenAI Gym</span>
-          <span class="project-row__tag">Reinforcement Learning</span>
         </div>
       </div>
     </div>
