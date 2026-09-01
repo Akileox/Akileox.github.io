@@ -98,7 +98,7 @@ classes: wide
     <a href="https://github.com/Akileox" target="_blank">GitHub</a>
     <a href="https://instagram.com/s.mini.lee" target="_blank">Instagram</a>
     <a href="mailto:akileo@korea.ac.kr">Email</a>
-    <a href="/assets/cv/cv_seungmin_lee.pdf" class="cv-btn" download>CV →</a>
+    <a href="/assets/cv/cv_seungmin_lee.pdf" class="cv-btn" target="_blank" rel="noopener">CV →</a>
   </div>
 
   <p class="about-intro">
