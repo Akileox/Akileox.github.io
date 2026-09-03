@@ -656,9 +656,13 @@ a, a:visited {
     word-break: keep-all; // 한글 단어 중간에서 안 끊기게(양쪽 정렬과 같이 쓸 때 특히 중요)
     overflow-wrap: break-word;
 
-    h2 { font-size: 1.15rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; }
-    h3 { font-size: 1rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.5rem; }
+    h2 { font-size: 1.15rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: var(--accent); }
+    h3 { font-size: 1rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.5rem; color: var(--accent); }
     p { margin-bottom: 1.1rem; text-align: justify; text-justify: inter-word; }
+
+    // 문장급 곁다리 설명에 선택적으로 다는 클래스 — kramdown: [(부연설명)]{: .aside}
+    // 인용/수식 괄호는 그대로 두고, 진짜 tangential한 문장에만 손으로 단다.
+    .aside { color: var(--text-muted); }
 
     a { color: var(--accent); &:hover { text-decoration: underline; } }
 
