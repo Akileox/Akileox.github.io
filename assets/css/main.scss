@@ -905,7 +905,9 @@ a, a:visited {
     display: grid;
     grid-template-columns: minmax(0, 880px) 320px;
     gap: 3.5rem;
-    align-items: start;
+    // align-items: start를 쓰면 sidebar가 자기 콘텐츠 높이로만 줄어들어 sticky가
+    // 붙을 공간이 없어짐(스크롤 30px만에 컨테이너 밖으로 밀려남, 2026-09-03 Playwright 실측) —
+    // 기본값(stretch)으로 sidebar를 본문 높이만큼 늘려야 sticky가 끝까지 따라옴.
 
     .post-single__sidebar { display: block; }
   }
@@ -1417,7 +1419,7 @@ a, a:visited {
     display: grid;
     grid-template-columns: minmax(0, 880px) 320px;
     gap: 3.5rem;
-    align-items: start;
+    // align-items:start 제거 이유는 §9 .post-single--with-toc 옆 주석 참고(같은 sticky 버그)
 
     .tc-sidebar { display: block; }
   }
