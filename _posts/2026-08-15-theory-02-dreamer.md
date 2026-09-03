@@ -3,7 +3,7 @@ title: "[이론] 2. Dreamer 계열"
 date: 2026-07-22
 categories: [Project]
 tags: [taskcraft-theory, world-model, dreamer, reinforcement-learning, robotics]
-excerpt: "1편의 KL 목적함수 하나만으로는 안정적으로 학습이 안 된다는 문제에서 출발해, RSSM 구조와 actor-critic objective로 잠재 공간 안에서 상상으로 정책을 학습하는 Dreamer 계열을 정리하고 actor가 왜 embodiment-specific 디코더인지 taskcraft 가설과 연결한다."
+excerpt: "1편에서 VAE와 MDN-RNN이 완전히 분리 학습돼 오차를 관측으로 못 바로잡는다는 문제에서 출발해, posterior/prior를 KL로 정렬시키는 RSSM 구조와 actor-critic objective로 잠재 공간 안에서 상상으로 정책을 학습하는 Dreamer 계열을 정리하고 actor가 왜 embodiment-specific 디코더인지 taskcraft 가설과 연결한다."
 ---
 
 <p class="post-series-note" markdown="1"><em>taskcraft <a href="/taskcraft/">연구 노트</a>를 뒷받침하는 [이론] 시리즈 2편이다. 1편(World Model)에서 이어진다.</em></p>
@@ -55,19 +55,15 @@ excerpt: "1편의 KL 목적함수 하나만으로는 안정적으로 학습이 �
 </div>
 </figure>
 
-## 1편의 목적함수만으로는 부족하다
+## 1편의 구조만으로는 부족하다
 
-1편은 world model을 "\\( z_t \\) 위에서 정의된 전이 모델"로 정의하고, KL 목적함수 하나를 제시했다.
+1편은 World Models(2018)가 V(VAE) → M(MDN-RNN) → C(Controller)를 완전히 분리해서 순서대로 학습한다는 걸 봤다. VAE를 먼저 오프라인으로 학습해 고정하고, 그 위에 MDN-RNN을 실제 latent를 타깃으로 한 회귀로 학습해 고정하고, 마지막에 컨트롤러를 진화 전략(CMA-ES)으로 학습한다. 셋 다 서로의 학습에 전혀 맞춰지지 않는다.
 
-$$
-\mathcal L(\theta) = \mathbb E\Big[D_{KL}\big(q(z_t\mid o_t)\,\Vert\,p_\theta(z_t\mid z_{t-1},a_{t-1})\big)\Big]
-$$
-
-그런데 이 식만으로는 실제로 무엇을 학습해야 하는지가 불완전하다. \\( z_t \\)를 어떤 구조로 표현할지(벡터 하나? 여러 조각?), 정책은 이 latent를 어떻게 써야 하는지, 그리고 world model을 학습한 뒤 정책은 실제로 어떻게 개선하는지가 빠져 있다. World Models(1편)의 원래 방법은 이 세 조각(V·M·C)을 따로 학습했다. VAE를 먼저 오프라인으로 학습해 고정하고, 그 위에 MDN-RNN을 학습해 고정하고, 마지막에 컨트롤러를 진화 전략(CMA-ES)으로 학습한다. 컨트롤러가 학습되는 동안 표현과 전이 모델은 전혀 갱신되지 않는다.
+문제는 이 분리 자체였다. 표현(VAE)과 전이 모델(MDN-RNN)이 한번 고정되면 서로를 다시 조정할 방법이 없으니, 상상된 롤아웃을 길게 이어갈수록 오차가 누적돼도 실제 관측으로 바로잡을 수 없다. **관측을 계속 참고하면서도 그 관측 없이 미래를 상상할 수 있으려면, 즉 표현 학습과 전이 모델을 하나의 학습 가능한 구조로 합치려면 어떻게 해야 하는가?** 이게 1편 끝에서 넘어온 질문이다.
 
 ## 핵심 아이디어: 잠재 공간 안에서 상상으로 정책을 학습한다
 
-PlaNet(Hafner et al., 2019)이 다음 구조(RSSM, Recurrent State-Space Model)를 처음 도입했지만, 아직 명시적 정책망 없이 latent 위에서 CEM(cross-entropy method)으로 매 스텝 플래닝했다. Dreamer(Hafner et al., 2020)가 여기에 actor-critic을 얹어, 실제 환경을 더 돌리지 않고도 학습된 전이 모델 안에서 **상상(imagination)**으로 정책을 개선하는 절차를 완성한다.
+PlaNet(Hafner et al., 2019)이 이 질문에 답한다. 아이디어는 이렇다. 매 시점 상태 추정을 두 갈래로 만든다. 하나는 실제 관측까지 본 뒤의 추정(posterior), 하나는 관측 없이 과거 상태와 행동만으로 미리 해본 예측(prior). 이 둘을 KL로 정렬시키도록 학습하면, 학습이 끝난 뒤에는 prior만으로도 posterior에 가까운 추정을 할 수 있게 된다. 그게 바로 "관측 없이 상상하기"다. 이 구조(RSSM, Recurrent State-Space Model)는 처음 나왔을 땐 아직 명시적 정책망 없이 latent 위에서 CEM(cross-entropy method)으로 매 스텝 플래닝하는 데 쓰였다. Dreamer(Hafner et al., 2020)가 여기에 actor-critic을 얹어, 실제 환경을 더 돌리지 않고도 학습된 전이 모델 안에서 **상상(imagination)**으로 정책을 개선하는 절차를 완성한다.
 
 RSSM은 상태를 결정론적 부분 \\( h_t \\)와 확률적 부분 \\( z_t \\)로 나눈다.
 
