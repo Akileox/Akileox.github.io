@@ -1,5 +1,5 @@
 ---
-title: "육상무선통신사, 항공무선통신사 취득 후기"
+title: "육상무선통신사, 항공무선통신사 취득 후기 (2026년도 6회차)"
 date: 2026-09-03
 categories: [Daily]
 tags: [자격증, 무선통신사, 공군]
@@ -8,13 +8,17 @@ toc: true
 comments: true
 ---
 
+> 해당 게시글은 각 시험에 대한 기본 정보를 제공하고자 쓴 것이 아닙니다. 기본 정보는 다른 게시글, 공식 사이트를 참고하시고, "최신" 시험 후기 참고용으로 봐주시길 바랍니다.
+>
+> 시험 정보에 대한 기본 사항은 [KCA 한국방송통신전파진흥원](https://www.cq.or.kr/qh_quagm02_003.do)에서 확인하실 수 있습니다.
+
 안녕하세요.
 
 공군 통신전자전기 전문기술병으로 입대하고자, 2026년도 6회차(8월) 쌍무통(육상무선통신사, 항공무선통신사)에 응시, 합격했습니다.
 
 앞으로 해당 자격증을 준비하시는 분들께 도움이 되었으면 하여 후기를 남깁니다. 저의 경우, KCA 홈페이지에서 면제 교육을 수강하여 항무통은 하루에 약 3~4시간씩 **3일**, 육무통은 시험 전날 기출문제만 5개년치 + 모의고사를 통해 준비했습니다.
 
-면제 교육비가 굉장히 비싸서(육무통, 항무통 각각 90,000원) 저처럼 **짧은 시간 내에 빠르게 자격증을 취득해야 하는 경우, 기초전파공학(기초 물리학과 전자기학)에 어려움이 있는 경우에만 면제 교육을 듣는 걸 추천**드립니다. (3과목 통신보안이 평균 올리기 좋다더군요.)
+면제 교육비가 굉장히 비싸서(육무통, 항무통 각각 90,000원) 저처럼 **짧은 시간 내에 빠르게 자격증을 취득해야 하는 경우, 기초전파공학(기초 물리학과 전자기학)에 어려움이 있는 경우에만 면제 교육을 듣는 걸 추천**드립니다. <span class="aside">(3과목 통신보안이 평균 올리기 좋다더군요.)</span>
 
 ![통신사 자격검정 접수 및 합격 결과 화면](/assets/images/posts/radio-operator-license/application-result.png)
 
@@ -27,7 +31,9 @@ comments: true
 **[항무통] 실기: 수신 (3분 20초)**
 - 유튜브에 "항무통 실기 샘플 (with CLOVA Dubbing)" 등의 영상을 활용하시어 수신을 준비했습니다.
 
-<!-- TODO: 항무통 실기 샘플(CLOVA Dubbing) 유튜브 링크 필요 -->
+<div class="yt-embed">
+<iframe src="https://www.youtube.com/embed/fYjh5Bt6sgs?list=PLDWh0O_eogalicTFJhDo4LiilvrdWlyj9" title="항무통 실기 샘플" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 - 경북지사의 경우, 키보드를 통해 문장을 입력합니다.
 - OUT 이후 5초 정도 남기에 수정 가능합니다.
@@ -47,11 +53,11 @@ comments: true
 
 ## 2. 시험 준비 Tip (과목 면제인 경우)
 
-육무통과 항무통을 동시에 준비하신다면 1과목 전파법규가 겹치니 준비가 훨씬 수월합니다. (저 또한 항무통만 공부하고, 육무통은 기출 정도만 봤습니다.)
+육무통과 항무통을 동시에 준비하신다면 1과목 전파법규가 겹치니 준비가 훨씬 수월합니다. <span class="aside">(저 또한 항무통만 공부하고, 육무통은 기출 정도만 봤습니다.)</span>
 
 **[항무통 필기]** [CBT](https://www.comcbt.com/xe/cfk) 1회차 정도 읽어보면서 어떻게 시험이 출제되는지 감을 잡으시고 이론 공부를 진행하시면 좋습니다. 처음에는 못 푸는 문제가 많은 게 당연합니다. 솔직히 "기출만 돌려보면 된다"는 후기에는 잘 공감하지 못했습니다. 평소에도 구조화해서 공부하는 걸 좋아하다 보니 단순 암기는 저에게 벅찼습니다.
 
-그래서 저는 uniblack님의 ['항공무선통신사 한 번에 합격하기'](https://kmong.com/gig/552484)를 구매하여 공부했습니다. (광고 아님)
+그래서 저는 uniblack님의 ['항공무선통신사 한 번에 합격하기'](https://kmong.com/gig/552484)를 구매하여 공부했습니다. <span class="aside">(광고 아님)</span>
 
 솔직히 처음에는 불만족스러웠습니다. "주요 법령 복사 붙여넣기에 약간의 comment만 넣은 거 아니야?"라고 생각하며 이론 공부가 지겨웠습니다. 그래서 1과목과 4과목을 준비했던 저만의 방법을 간략히 소개드립니다.
 
@@ -59,7 +65,7 @@ comments: true
 
 기출문제를 펴 두고, 한 문제를 푼 뒤 해당 내용이 어떤 법령 섹션에 해당하는지 이론 파일을 뒤져보며 해당 섹션 내용을 한 번 빠르게 읽고 제 나름대로 구조화해서 정리해두었습니다.
 
-이렇게 힘겨운 기출 씹어먹기를 약 3회차 정도 진행(그래봤자 3시간 정도면 다 합니다)하신다면, 이후의 기출 문제들은 정말 수월하게 풀어나가실 수 있습니다. (종종 처음 보는 문제가 나온다면 나만의 필기 노트에 확장해나가면 되겠지요.)
+이렇게 힘겨운 기출 씹어먹기를 약 3회차 정도 진행<span class="aside">(그래봤자 3시간 정도면 다 합니다)</span>하신다면, 이후의 기출 문제들은 정말 수월하게 풀어나가실 수 있습니다. <span class="aside">(종종 처음 보는 문제가 나온다면 나만의 필기 노트에 확장해나가면 되겠지요.)</span>
 
 **문제를 보자마자 탁탁 체크하며 1과목(20문항)을 5분 내외로 푸는 여러분을 마주하시게 될 겁니다.**
 
@@ -69,9 +75,17 @@ comments: true
 
 4과목 영어를 준비하시기 전에, 아래 영상을 통해 포네틱 코드를 먼저 익히시길 권합니다. (포네틱 코드 자체를 꼬아서 출제하는 기출문제도 존재합니다.)
 
-<!-- TODO: 포네틱 코드 학습용 유튜브 링크 필요 -->
+<p class="yt-caption">발음 연습용</p>
+<div class="yt-embed">
+<iframe src="https://www.youtube.com/embed/JaqgU6dMON0" title="포네틱 코드 발음 연습" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
-이후 기출문제를 학습하며 "항공 용어"에 익숙해지시길 권합니다. Aircraft station과 Aeronautical station의 차이 등. 그리고 여러분들이 항공기를 운항하는 기장이라 생각하시고 머릿속에 이미지를 그려가며 공부하시길 권합니다. 생각보다 여러분들 기억 속에 있는 비행 지식이 많을 것입니다. (저 같은 경우는 '명탐정 코난 극장판 은빛날개의 마술사'를 떠올리며 공부했더니 수월하게 암기할 수 있었습니다.)
+<p class="yt-caption">숫자 이해</p>
+<div class="yt-embed">
+<iframe src="https://www.youtube.com/embed/9KdbI1xhnuU" title="포네틱 코드 숫자 이해" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+이후 기출문제를 학습하며 "항공 용어"에 익숙해지시길 권합니다. Aircraft station과 Aeronautical station의 차이 등. 그리고 여러분들이 항공기를 운항하는 기장이라 생각하시고 머릿속에 이미지를 그려가며 공부하시길 권합니다. 생각보다 여러분들 기억 속에 있는 비행 지식이 많을 것입니다. <span class="aside">(저 같은 경우는 '명탐정 코난 극장판 은빛날개의 마술사'를 떠올리며 공부했더니 수월하게 암기할 수 있었습니다.)</span>
 
 특히, ATIS, MSL 등 줄임말을 하나하나 외우지 않길 권장드립니다. **기출에 많이 나오는 것만 기시감을 높여두시길.**
 
@@ -96,3 +110,9 @@ comments: true
 2026.09.03, 항무통 실기까지 최종 합격했네요. 시험 준비하는 모든 분들께 참고가 되길 바랍니다.
 
 감사합니다.
+
+<style>
+.yt-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 0.75rem 0 1.25rem; border-radius: 8px; }
+.yt-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+.yt-caption { font-size: 0.8rem; color: var(--text-muted); margin: 1rem 0 0.25rem; font-weight: 600; }
+</style>
