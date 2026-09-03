@@ -47,7 +47,7 @@ comments: true
 - 중간에 틀렸을 때 CORRECTION 발음 후 수정할 수 있으나, 이후 시간이 모자랄 수 있어 **그냥 넘어가는 걸 추천**드립니다.
 - 반드시 끝날 때 OUT을 말하시길 바랍니다.
 
-**[면제교육]** 기초전파공학, 통신보안에 대한 영상을 보고 각 영상 이후 O·X 퀴즈와 1과목 교육을 이수한 경우, 단원평가 형식으로 객관식(60점 이상 통과) 시험을 보게 됩니다. 어렵지 않습니다. 이제는 일상인 당신의 파트너를 잘 활용해보세요.
+**[면제교육]** 기초전파공학, 통신보안에 대한 영상을 보고 각 영상 이후 O·X 퀴즈와 1과목 교육을 이수한 경우, 단원평가 형식으로 객관식(60점 이상 통과) 시험을 보게 됩니다. 어렵지 않습니다. 이제는 일상인 당신의 파트너<span class="aside">(AI)</span>를 잘 활용해보세요.
 
 > **[중요]** 육무통은 이전까지의 CBT 기출문제와 매우 다르게 출제되었습니다. ('육상'에 포커싱하여, 항무통과 겹치지 않는 특색 있는 무선국이 무엇일지 생각해보시면 좋습니다.) 항무통의 경우, 4과목 영어가 기출과 매우 유사했습니다. 이 점 유념하시어 준비하시길 바랍니다.
 
@@ -105,6 +105,17 @@ comments: true
 
 필기와 실기 사이 대기 시간이 길기에 주변 카페에서 브런치를 먹으며 대기했습니다. 시험장 가기 전에 실기 샘플을 한 번 정도 들으며 귀를 열어두시면 수신을 잘하실 수 있습니다.
 
+<div class="summary-box" markdown="1">
+**한 줄 요약** (면제교육을 받은 경우)
+
+- **항무통**: 하루 3~4시간 × 3일 정도
+- **육무통**: 시험 전날 5개년 기출 + 모의고사
+- **전파법규**: 기출 → 법령 확인 → 구조화
+- **영어**: 포네틱 코드 → 항공 용어 → 기출
+- **실기**: 수신/송신 샘플로 사전 연습
+
+</div>
+
 ---
 
 2026.09.03, 항무통 실기까지 최종 합격했네요. 시험 준비하는 모든 분들께 참고가 되길 바랍니다.
@@ -115,4 +126,9 @@ comments: true
 .yt-embed { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 0.75rem 0 1.25rem; border-radius: 8px; }
 .yt-embed iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 .yt-caption { font-size: 0.8rem; color: var(--text-muted); margin: 1rem 0 0.25rem; font-weight: 600; }
+.summary-box { background: var(--accent-light); border: 1px solid var(--accent); border-radius: var(--radius-sm); padding: 1rem 1.3rem; margin: 1.5rem 0; }
+.summary-box p:first-child { margin-top: 0; }
+.summary-box ul { margin: 0.4rem 0 0; }
+.summary-box li { margin-bottom: 0.3rem; }
+.summary-box li:last-child { margin-bottom: 0; }
 </style>
