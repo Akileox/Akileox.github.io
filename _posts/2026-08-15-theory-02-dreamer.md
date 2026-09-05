@@ -136,7 +136,9 @@ $$
 
 ## 필요한 만큼만 수학: 학습 목적함수
 
-학습 목적함수는 1편의 KL 항에 복원·보상 예측 항을 더한 것이다.
+이 posterior-prior 구조는 0편에서 다룬 VAE의 ELBO와 KL 항 하나를 공유한다. VAE는 사전분포 \\( p(z) \\)가 고정된 \\( \mathcal N(0,I) \\)인데, 여기서는 그 사전분포 자리 자체가 직전 상태와 행동에 조건화되어 매 시점 다시 계산되는, 학습되는 전이 모델 \\( p_\phi(z_t\mid h_t) \\)다. 직관적으로 보면, 이건 VAE에서 고정된 사전분포가 맡던 역할을 학습 가능한 행동 조건부 latent transition model로 확장한 것으로 볼 수 있다. <span class="aside">(다만 Dreamer 전체를 VAE의 단순한 확장으로 받아들이면 안 된다. 이 대응은 KL 항 하나에 대한 직관일 뿐, 이 편이 실제로 다루는 구조(actor-critic, 상상 롤아웃)는 이보다 훨씬 넓다.)</span> 1편의 \\( z_t \\)에는 이 posterior-prior 구분 자체가 없었다. 1편의 MDN-RNN은 실제로 관측된 \\( z_t \\)만 입력으로 써서 다음 \\( z_{t+1} \\)을 맞히는 단순 회귀였을 뿐, 관측 없이 미리 예측하는 prior와 관측을 본 posterior를 나누지 않았다. 그 구분을 처음 도입하고 KL로 정렬시키는 게 RSSM이다.
+
+학습 목적함수는 위 posterior-prior KL 항에 복원·보상 예측 항을 더한 것이다.
 
 $$
 \mathcal L(\phi) = \mathbb E_q\Big[\sum_t \ln p_\phi(o_t\mid h_t,z_t) + \ln p_\phi(r_t\mid h_t,z_t) - \beta\, D_{KL}\big(q_\phi(z_t\mid h_t,o_t)\,\Vert\,p_\phi(z_t\mid h_t)\big)\Big]
