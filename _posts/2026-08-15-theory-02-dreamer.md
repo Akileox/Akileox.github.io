@@ -134,7 +134,7 @@ $$
 <figcaption>h_t-1, z_t-1, a_t-1이 f_φ를 거쳐 h_t가 되고, h_t는 prior와 posterior 두 갈래로 갈라진다. posterior에만 실제 관측 o_t가 들어간다(점선 상자). 진짜 쟁점은 아래 강조 상자다. actor가 h_t, z_t를 그대로 입력받아 행동을 출력하는 이상, z_t에 embodiment 정보가 남아있을 유인이 하나 더 늘어난다.</figcaption>
 </figure>
 
-## 필요한 만큼만 수학: 학습 목적함수
+## 핵심 수식: 학습 목적함수
 
 이 posterior-prior 구조는 0편에서 다룬 VAE의 ELBO와 KL 항 하나를 공유한다. VAE는 사전분포 \\( p(z) \\)가 고정된 \\( \mathcal N(0,I) \\)인데, 여기서는 그 사전분포 자리 자체가 직전 상태와 행동에 조건화되어 매 시점 다시 계산되는, 학습되는 전이 모델 \\( p_\phi(z_t\mid h_t) \\)다. 직관적으로 보면, 이건 VAE에서 고정된 사전분포가 맡던 역할을 학습 가능한 행동 조건부 latent transition model로 확장한 것으로 볼 수 있다. <span class="aside">(다만 Dreamer 전체를 VAE의 단순한 확장으로 받아들이면 안 된다. 이 대응은 KL 항 하나에 대한 직관일 뿐, 이 편이 실제로 다루는 구조(actor-critic, 상상 롤아웃)는 이보다 훨씬 넓다.)</span> 1편의 \\( z_t \\)에는 이 posterior-prior 구분 자체가 없었다. 1편의 MDN-RNN은 실제로 관측된 \\( z_t \\)만 입력으로 써서 다음 \\( z_{t+1} \\)을 맞히는 단순 회귀였을 뿐, 관측 없이 미리 예측하는 prior와 관측을 본 posterior를 나누지 않았다. 그 구분을 처음 도입하고 KL로 정렬시키는 게 RSSM이다.
 

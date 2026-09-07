@@ -122,7 +122,7 @@ $$
 <figcaption>관측이 representation function을 거쳐 s_0가 되고, dynamics function이 행동을 받아 다음 latent와 보상을 예측한다. prediction function(그림에는 생략, s_1 이후 반복)이 정책과 가치를 뽑는다. 진짜 쟁점은 아래 강조 상자다. Dreamer(2편)와 달리 이 체인 어디에도 관측을 복원하는 손실이 없다.</figcaption>
 </figure>
 
-## 필요한 만큼만 수학: 세 손실은 전부 결정을 겨냥한다
+## 핵심 수식: 세 손실은 전부 결정을 겨냥한다
 
 representation·dynamics·prediction 세 함수를 policy·value·reward 예측 손실만으로 end-to-end 학습한다.
 

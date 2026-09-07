@@ -126,7 +126,7 @@ GE는 이 역할들을 GE-Base(world model), GE-Act(action decoder), GE-Sim(시�
 
 다른 로봇(Agilex, Dual Franka)으로 옮길 때는 GE-Base(비디오 생성 부분)만 적응시키고, GE-Act(행동 헤드)는 그 로봇에 맞춰 처음부터 새로 학습한다.
 
-## 필요한 만큼만 수학
+## 핵심 수식
 
 GE-Act가 행동을 생성하는 방식은 diffusion이 아니라 **flow matching**이다. Diffusion은 노이즈에서 데이터로 가는 확률적 역과정을 여러 스텝에 걸쳐 반복하며 매 스텝 노이즈를 제거한다. Flow matching은 노이즈 분포와 데이터 분포를 잇는 연속적인 확률 흐름(probability flow)의 속도장을 직접 회귀로 학습해서, 노이즈에서 데이터로 가는 경로를 상대적으로 직선에 가깝게 만든다. 그 결과 같은 품질을 내는 데 필요한 역과정 스텝 수가 diffusion보다 적을 수 있다. GE-Act는 이 성질을 이용해 5단계 디노이징만으로 54스텝 토크 궤적을 200ms 안에 생성한다. <span class="aside">(실시간 로봇 제어에서 지연시간이 병목이라는 걸 고려하면, 왜 diffusion이 아니라 flow matching인가에 대한 실용적 답이 여기 있다.)</span>
 

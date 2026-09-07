@@ -126,7 +126,7 @@ DreamGen(NVIDIA 외, 2025)은 이 시연 자체를 늘릴 수 있는지 묻는�
 <figcaption><strong>이 그림이 보여주는 것.</strong> 씨앗 시연으로 영상 생성 모델을 target embodiment에 적응시킨 뒤(강조 상자), 새 행동·환경 프롬프트로 합성 영상을 만들고 IDM으로 행동을 역추출해 정책을 학습한다.</figcaption>
 </figure>
 
-## 필요한 만큼만 수학: pseudo-action을 뽑는 두 방식
+## 핵심 수식: pseudo-action을 뽑는 두 방식
 
 Pseudo-action을 뽑는 방식은 4편(Genie)과 5·6편(R3M/VIP)에서 이미 나온 재료의 재조합이다.
 
