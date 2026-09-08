@@ -1584,24 +1584,25 @@ a, a:visited {
   margin-bottom: 0.65rem;
   overflow: hidden;
 
+  // 예전엔 summary가 display:flex라서 텍스트/인라인 수식(mjx-container)이 섞이면
+  // 각 조각이 개별 flex item으로 쪼개져 줄바꿈이 좁은 열로 깨졌다(2026-09-08 실측).
+  // 마커를 absolute ::before로 빼서 summary는 그냥 인라인 흐름으로 두면 해결된다.
   summary {
     cursor: pointer;
-    padding: 0.95rem 1.2rem;
+    position: relative;
+    padding: 0.95rem 1.2rem 0.95rem 2.3rem;
     font-weight: 700;
     font-size: 0.98rem;
     color: var(--text);
     list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
 
     &::-webkit-details-marker { display: none; }
     &::before {
       content: "+";
+      position: absolute;
+      left: 1.2rem;
       font-family: "SFMono-Regular", Consolas, monospace;
       color: var(--accent);
-      width: 1em;
-      flex-shrink: 0;
     }
   }
 
