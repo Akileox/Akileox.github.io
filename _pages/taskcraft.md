@@ -24,22 +24,22 @@ classes: wide
         <div class="tc-stepper__step is-done">
           <div class="tc-stepper__line"></div>
           <div class="tc-stepper__dot">✓</div>
-          <div class="tc-stepper__label">환경 구축</div>
+          <div class="tc-stepper__label">환경 세팅</div>
+        </div>
+        <div class="tc-stepper__step is-done">
+          <div class="tc-stepper__line"></div>
+          <div class="tc-stepper__dot">✓</div>
+          <div class="tc-stepper__label">인코더 파이프라인</div>
         </div>
         <div class="tc-stepper__step is-current">
           <div class="tc-stepper__line"></div>
-          <div class="tc-stepper__dot">2</div>
-          <div class="tc-stepper__label">인코더 비교</div>
-        </div>
-        <div class="tc-stepper__step">
-          <div class="tc-stepper__line"></div>
           <div class="tc-stepper__dot">3</div>
-          <div class="tc-stepper__label">임베딩 검증</div>
+          <div class="tc-stepper__label">이론 시리즈</div>
         </div>
         <div class="tc-stepper__step">
           <div class="tc-stepper__line"></div>
           <div class="tc-stepper__dot">4</div>
-          <div class="tc-stepper__label">정책 비교</div>
+          <div class="tc-stepper__label">Cross-Embodiment 파일럿</div>
         </div>
         <div class="tc-stepper__step">
           <div class="tc-stepper__dot">5</div>
@@ -194,11 +194,11 @@ classes: wide
   <div class="tc-section" id="status">
     <p class="section-label"><span class="section-label__num">07</span> 지금 상태</p>
     <div class="tc-milestones">
-      <div class="tc-ms-row"><span>환경 구축 (Windows 네이티브 MineRL)</span><span class="status-badge status-badge--done">완료</span></div>
-      <div class="tc-ms-row"><span>인코더 비교 (VPT·R3M·VIP·CLIP + linear probe)</span><span class="status-badge status-badge--upcoming">진행 전</span></div>
-      <div class="tc-ms-row"><span>임베딩 검증 (embodiment 클러스터링 테스트)</span><span class="status-badge status-badge--upcoming">진행 전</span></div>
-      <div class="tc-ms-row"><span>정책 비교 (BC·DAgger·PPO)</span><span class="status-badge status-badge--upcoming">진행 전</span></div>
-      <div class="tc-ms-row"><span>결론 정리</span><span class="status-badge status-badge--upcoming">진행 전</span></div>
+      <div class="tc-ms-row"><span>환경/도구 세팅 (Windows 네이티브 MineRL)</span><span class="status-badge status-badge--done">완료</span></div>
+      <div class="tc-ms-row"><span>Observation pipeline (VPT·R3M·VIP·CLIP 인코더 통합)</span><span class="status-badge status-badge--done">완료</span></div>
+      <div class="tc-ms-row"><span>[이론] 시리즈 (배경 개념 정리, akileo-vault 발행)</span><span class="status-badge status-badge--progress">진행중</span></div>
+      <div class="tc-ms-row"><span>간이 cross-embodiment 파일럿 (Minecraft 내 embodiment 교체: 겉날개 vs 보트)</span><span class="status-badge status-badge--upcoming">설계 전</span></div>
+      <div class="tc-ms-row"><span>BC vs DAgger vs PPO 비교</span><span class="status-badge status-badge--upcoming">보류</span></div>
     </div>
     <p style="margin-top:0.9rem;">
       <a href="/taskcraft/dashboard/">실험 진행 상황 대시보드 →</a>

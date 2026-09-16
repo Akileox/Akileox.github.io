@@ -21,7 +21,7 @@ classes: wide
   <div class="tc-dash-grid">
     <div class="tc-dash-card">
       <p class="tc-dash-card__label">마일스톤</p>
-      <p class="tc-dash-card__value">1 / 5</p>
+      <p class="tc-dash-card__value">2 / 5</p>
     </div>
     <div class="tc-dash-card">
       <p class="tc-dash-card__label">완료된 실험</p>
@@ -29,26 +29,32 @@ classes: wide
     </div>
     <div class="tc-dash-card">
       <p class="tc-dash-card__label">마지막 갱신</p>
-      <p class="tc-dash-card__value" style="font-size:1.1rem;">2026-07-21</p>
+      <p class="tc-dash-card__value" style="font-size:1.1rem;">2026-09-01</p>
     </div>
   </div>
 
   <div class="tc-section" id="milestones">
     <p class="section-label"><span class="section-label__num">01</span> 마일스톤</p>
     <div class="tc-milestones">
-      <div class="tc-ms-row"><span>환경 구축 (Windows 네이티브 MineRL)</span><span class="status-badge status-badge--done">완료</span></div>
-      <div class="tc-ms-row"><span>인코더 비교 (VPT·R3M·VIP·CLIP + linear probe)</span><span class="status-badge status-badge--upcoming">진행 전</span></div>
-      <div class="tc-ms-row"><span>임베딩 검증 (embodiment 클러스터링 테스트)</span><span class="status-badge status-badge--upcoming">진행 전</span></div>
-      <div class="tc-ms-row"><span>정책 비교 (BC·DAgger·PPO)</span><span class="status-badge status-badge--upcoming">진행 전</span></div>
-      <div class="tc-ms-row"><span>결론 정리</span><span class="status-badge status-badge--upcoming">진행 전</span></div>
+      <div class="tc-ms-row"><span>환경/도구 세팅 (Windows 네이티브 MineRL)</span><span class="status-badge status-badge--done">완료</span></div>
+      <div class="tc-ms-row"><span>Observation pipeline (VPT·R3M·VIP·CLIP 인코더 통합)</span><span class="status-badge status-badge--done">완료</span></div>
+      <div class="tc-ms-row"><span>[이론] 시리즈 (배경 개념 정리, akileo-vault 발행)</span><span class="status-badge status-badge--progress">진행중</span></div>
+      <div class="tc-ms-row"><span>간이 cross-embodiment 파일럿 (Minecraft 내 embodiment 교체: 겉날개 vs 보트)</span><span class="status-badge status-badge--upcoming">설계 전</span></div>
+      <div class="tc-ms-row"><span>BC vs DAgger vs PPO 비교</span><span class="status-badge status-badge--upcoming">보류</span></div>
     </div>
+    <p class="muted" style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem;">
+      2026-08-12: 정책 비교(BC/DAgger/PPO) 축과 embodiment-agnostic representation 축이 서로 다른
+      질문이라고 판단해 우선순위를 후자로 옮김. 2026-08-31: 입대까지 남은 기간이 좁혀져 세부 파일럿을
+      물리 로봇 키트 이식에서 Minecraft 안 embodiment 교체(겉날개 vs 보트)로 재설계함. 자세한 배경은
+      <a href="https://github.com/Akileox/taskcraft/blob/main/docs/position_paper.md" style="color:var(--accent);">포지셔닝 문서</a> 참고.
+    </p>
   </div>
 
   <div class="tc-section" id="log">
     <p class="section-label"><span class="section-label__num">02</span> 실험 아카이브</p>
     <p class="muted" style="font-size:0.9rem;color:var(--text-muted);margin-bottom:1rem;">
-      실험이 끝날 때마다 여기에 결과와 링크가 하나씩 쌓인다. 지금은 마일스톤 1(환경 구축)만 끝난
-      상태라 비어 있다.
+      실험이 끝날 때마다 여기에 결과와 링크가 하나씩 쌓인다. 지금까지는 인프라 마일스톤(환경 구축,
+      인코더 파이프라인)만 끝난 상태라 비어 있다.
     </p>
     <div class="tc-dash-empty">
       아직 기록된 실험이 없습니다. 첫 실험(인코더 비교)이 끝나면 이 자리에 결과 요약과
