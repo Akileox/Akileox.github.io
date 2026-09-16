@@ -197,7 +197,7 @@ classes: wide
       <div class="tc-ms-row"><span>환경/도구 세팅 (Windows 네이티브 MineRL)</span><span class="status-badge status-badge--done">완료</span></div>
       <div class="tc-ms-row"><span>Observation pipeline (VPT·R3M·VIP·CLIP 인코더 통합)</span><span class="status-badge status-badge--done">완료</span></div>
       <div class="tc-ms-row"><span>[이론] 시리즈 (배경 개념 정리, akileo-vault 발행)</span><span class="status-badge status-badge--progress">진행중</span></div>
-      <div class="tc-ms-row"><span>간이 cross-embodiment 파일럿 (Minecraft 내 embodiment 교체: 겉날개 vs 보트)</span><span class="status-badge status-badge--upcoming">설계 전</span></div>
+      <div class="tc-ms-row"><span>간이 cross-embodiment 파일럿 (Minecraft 내 embodiment 교체: target 겉날개 확정)</span><span class="status-badge status-badge--progress">설계중</span></div>
       <div class="tc-ms-row"><span>BC vs DAgger vs PPO 비교</span><span class="status-badge status-badge--upcoming">보류</span></div>
     </div>
     <p style="margin-top:0.9rem;">

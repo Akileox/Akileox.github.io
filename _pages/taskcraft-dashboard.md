@@ -39,13 +39,14 @@ classes: wide
       <div class="tc-ms-row"><span>환경/도구 세팅 (Windows 네이티브 MineRL)</span><span class="status-badge status-badge--done">완료</span></div>
       <div class="tc-ms-row"><span>Observation pipeline (VPT·R3M·VIP·CLIP 인코더 통합)</span><span class="status-badge status-badge--done">완료</span></div>
       <div class="tc-ms-row"><span>[이론] 시리즈 (배경 개념 정리, akileo-vault 발행)</span><span class="status-badge status-badge--progress">진행중</span></div>
-      <div class="tc-ms-row"><span>간이 cross-embodiment 파일럿 (Minecraft 내 embodiment 교체: 겉날개 vs 보트)</span><span class="status-badge status-badge--upcoming">설계 전</span></div>
+      <div class="tc-ms-row"><span>간이 cross-embodiment 파일럿 (Minecraft 내 embodiment 교체: target 겉날개 확정)</span><span class="status-badge status-badge--progress">설계중</span></div>
       <div class="tc-ms-row"><span>BC vs DAgger vs PPO 비교</span><span class="status-badge status-badge--upcoming">보류</span></div>
     </div>
     <p class="muted" style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem;">
       2026-08-12: 정책 비교(BC/DAgger/PPO) 축과 embodiment-agnostic representation 축이 서로 다른
       질문이라고 판단해 우선순위를 후자로 옮김. 2026-08-31: 입대까지 남은 기간이 좁혀져 세부 파일럿을
-      물리 로봇 키트 이식에서 Minecraft 안 embodiment 교체(겉날개 vs 보트)로 재설계함. 자세한 배경은
+      물리 로봇 키트 이식에서 Minecraft 안 embodiment 교체로 재설계함. 2026-09-01: target embodiment를
+      겉날개로 확정(수영이 백업 후보) — 검증 task와 데이터셋 구성은 아직 설계 중. 자세한 배경은
       <a href="https://github.com/Akileox/taskcraft/blob/main/docs/position_paper.md" style="color:var(--accent);">포지셔닝 문서</a> 참고.
     </p>
   </div>

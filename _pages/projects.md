@@ -18,7 +18,7 @@ classes: wide
       <div>
         <h3 class="project-row__title">taskcraft: Embodiment-Agnostic Task Representation</h3>
         <p class="project-row__desc">
-          사람 시연 영상에서 신체 구조에 종속되지 않는 task representation을 latent world model로 추출해, 형태가 다른 에이전트에 이식할 수 있는가에 대한 연구. Frozen encoder(VPT/R3M/VIP/CLIP) 비교 파이프라인을 구축했고, 입대 전 남은 기간을 고려해 Minecraft 내 embodiment 교체(겉날개 vs 보트)로 파일럿을 재설계했다.
+          사람 시연 영상에서 신체 구조에 종속되지 않는 task representation을 latent world model로 추출해, 형태가 다른 에이전트에 이식할 수 있는가에 대한 연구. Frozen encoder(VPT/R3M/VIP/CLIP) 비교 파이프라인을 구축했고, 입대 전 남은 기간을 고려해 파일럿을 Minecraft 내 embodiment 교체(겉날개)로 재설계, 현재 검증 task와 데이터셋을 설계 중이다.
         </p>
         <div class="project-row__tags">
           <span class="project-row__tag">World Model</span>
